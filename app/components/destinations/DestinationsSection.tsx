@@ -181,8 +181,8 @@ export default function DestinationsSection() {
   }, []);
 
   return (
-    <section className="bg-[#f8f6f2] px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-7xl space-y-32">
+    <section className="bg-[#f8f6f2] px-4 py-16 sm:px-6 sm:py-20 md:py-24 md:px-10">
+      <div className="mx-auto max-w-7xl space-y-16 sm:space-y-24 md:space-y-32">
         {destinations.map((item, index) => (
           <motion.div
             key={`${item.title}-${index}`}
@@ -191,7 +191,7 @@ export default function DestinationsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className={`scroll-mt-24 grid items-center gap-10 lg:grid-cols-2 ${
+            className={`scroll-mt-24 grid items-center gap-6 sm:gap-8 md:gap-10 lg:grid-cols-2 ${
               index % 2 !== 0 ? "lg:[&>*:first-child]:order-2" : ""
             }`}
           >

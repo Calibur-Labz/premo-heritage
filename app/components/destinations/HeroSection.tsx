@@ -44,7 +44,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 animate-bounce sm:bottom-8 md:bottom-10">
         <div className="flex flex-col items-center">
           <span className="mb-3 font-secondary text-xs uppercase tracking-[0.3em] text-white/80">
             Scroll Down
@@ -52,7 +52,7 @@ export default function HeroSection() {
 
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-white"
+            className="h-6 w-6 text-white md:h-8 md:w-8"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

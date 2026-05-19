@@ -30,7 +30,7 @@ export default function DestinationImage({
 
   return (
     <div
-      className="group relative h-[300px] w-full overflow-hidden rounded-[10px] shadow-[0_12px_35px_rgba(0,0,0,0.18)] md:h-[430px]"
+      className="group relative h-[220px] w-full overflow-hidden rounded-[10px] shadow-[0_12px_35px_rgba(0,0,0,0.18)] sm:h-[300px] md:h-[430px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

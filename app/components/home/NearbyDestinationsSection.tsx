@@ -47,8 +47,7 @@ const SLOT_STYLES: SlotStyle[] = [
   { x: 440, scale: 0.7, zIndex: 1, opacity: 0.85 },  // far right
 ];
 
-const VISIBLE_SLOTS = SLOT_STYLES.length;
-const CENTER_SLOT = Math.floor(VISIBLE_SLOTS / 2);
+const getVisibleCount = (width: number) => width < 768 ? 3 : 5;
 
 const getSpacingScale = (width: number): number => {
   if (width < 480) return 0.42;
@@ -79,18 +78,23 @@ export default function NearbyDestinationsSection() {
     return () => clearInterval(interval);
   }, []);
 
+  const spacingScale = getSpacingScale(viewportWidth);
+  const visibleCount = getVisibleCount(viewportWidth);
+  const centerSlot = Math.floor(visibleCount / 2);
+  const activeSlotStyles = visibleCount === 3 ? SLOT_STYLES.slice(1, 4) : SLOT_STYLES;
+
   const getSlotForCard = useCallback(
     (cardIndex: number): number => {
       const total = destinations.length;
       let diff = (cardIndex - activeIndex + total) % total;
       if (diff > total / 2) diff -= total;
 
-      if (diff >= -CENTER_SLOT && diff <= CENTER_SLOT) {
-        return diff + CENTER_SLOT;
+      if (diff >= -centerSlot && diff <= centerSlot) {
+        return diff + centerSlot;
       }
       return -1;
     },
-    [activeIndex]
+    [activeIndex, centerSlot]
   );
 
   const goTo = (index: number) => {
@@ -105,17 +109,15 @@ export default function NearbyDestinationsSection() {
     }
   };
 
-  const spacingScale = getSpacingScale(viewportWidth);
-
   return (
-    <section className="best-destinations-wrapper overflow-hidden bg-white py-24">
+    <section className="best-destinations-wrapper overflow-hidden bg-white py-12 md:py-24">
       {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
-        className="text-center"
+        className="px-5 text-center md:px-10"
       >
         <h2 className="font-primary text-5xl font-black text-primary md:text-6xl">
           Nearby Destinations
@@ -137,7 +139,7 @@ export default function NearbyDestinationsSection() {
           {destinations.map((dest, index) => {
             const slot = getSlotForCard(index);
             const isVisible = slot !== -1;
-            const isCenter = slot === CENTER_SLOT;
+            const isCenter = slot === centerSlot;
 
             const total = destinations.length;
             const distance = (index - activeIndex + total) % total;
@@ -145,9 +147,9 @@ export default function NearbyDestinationsSection() {
 
             const target = isVisible
               ? {
-                  x: SLOT_STYLES[slot].x * spacingScale,
-                  scale: SLOT_STYLES[slot].scale,
-                  opacity: SLOT_STYLES[slot].opacity,
+                  x: activeSlotStyles[slot].x * spacingScale,
+                  scale: activeSlotStyles[slot].scale,
+                  opacity: activeSlotStyles[slot].opacity,
                 }
               : {
                   x: offstageX * spacingScale,
@@ -155,7 +157,7 @@ export default function NearbyDestinationsSection() {
                   opacity: 0,
                 };
 
-            const zIndex = isVisible ? SLOT_STYLES[slot].zIndex : 0;
+            const zIndex = isVisible ? activeSlotStyles[slot].zIndex : 0;
 
             return (
               <motion.div
@@ -222,7 +224,7 @@ export default function NearbyDestinationsSection() {
 
         .best-dest-stage {
           position: relative;
-          padding: 10px 0 30px;
+          padding: 10px 20px 30px;
         }
 
         .best-dest-track {

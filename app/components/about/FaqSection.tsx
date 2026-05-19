@@ -44,7 +44,7 @@ export default function FaqSection() {
       <div className="mx-auto max-w-7xl">
 
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-4 font-primary text-5xl font-black leading-[1] text-primary md:text-6xl">
+          <h2 className="mb-4 font-primary text-5xl font-black leading-tight text-primary md:text-6xl">
             Frequently Asked Questions
           </h2>
 

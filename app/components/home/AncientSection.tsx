@@ -28,7 +28,7 @@ export default function AncientSection() {
                 leaves, seasoned with hand-ground spices grown in our garden.
                 </p>
 
-              <Link href="/booking" className="mt-10 flex justify-center">
+              <Link href="/booking" className="mt-10 flex w-full justify-center sm:w-auto">
                   <button className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515] sm:w-auto">
                   
                   {/* Shine Element */}

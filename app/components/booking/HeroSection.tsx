@@ -30,7 +30,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-6 text-center">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 text-center sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.1 }}
-            className="mx-auto mt-8 max-w-2xl font-secondary text-[15px] leading-8 text-white/80 md:text-base"
+            className="mx-auto mt-8 max-w-2xl font-secondary text-sm leading-8 text-white/80 md:text-base"
           >
             Our online booking experience is being crafted with the same care and
             attention as the villa itself. In the meantime, please reach out to us
@@ -88,13 +88,13 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll Down Indicator */}
-      <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 animate-bounce sm:bottom-8 md:bottom-10">
         <div className="flex flex-col items-center">
-          <span className="mb-3 font-secondary text-[15px] uppercase tracking-[0.3em] text-white/80">
+          <span className="mb-3 font-secondary text-xs uppercase tracking-[0.3em] text-white/80 sm:text-sm">
             Scroll Down
           </span>
 
-          <ChevronDown className="h-8 w-8 text-white" strokeWidth={1.5} />
+          <ChevronDown className="h-6 w-6 text-white md:h-8 md:w-8" strokeWidth={1.5} />
         </div>
       </div>
     </section>

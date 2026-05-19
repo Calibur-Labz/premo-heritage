@@ -1,13 +1,13 @@
 export default function HeritageSection() {
   return (
     <>
-      <section className="bg-[#f5f5f5] py-20 px-10 md:px-20">
+      <section className="bg-[#f5f5f5] py-12 px-5 md:py-20 md:px-12 lg:px-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           
             <img
               src="/home/lipa.png"
               alt="Heritage cooking"
-              className="w-[85%] mx-auto object-cover rounded-[10px]"
+              className="h-[220px] sm:h-[280px] md:h-auto w-full md:w-[85%] mx-auto object-cover rounded-[10px]"
             />
 
           <div>
@@ -37,7 +37,7 @@ export default function HeritageSection() {
         </div>
       </section>
 
-      <section className="bg-[#8B1A1A] py-10 px-6 md:px-10">
+      <section className="bg-[#8B1A1A] py-8 px-5 md:py-10 md:px-10">
 
         <div className="flex items-center justify-center gap-6 md:gap-10">
           <span className="text-[#C9A84C] text-2xl opacity-80 shrink-0">

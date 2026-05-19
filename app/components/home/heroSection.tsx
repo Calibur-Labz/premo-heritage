@@ -26,7 +26,7 @@ export default function heroSection() {
       <div className="absolute inset-0 bg-black/45" />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-1 items-center justify-center px-2 pt-28 text-center">
+      <div className="relative z-10 flex flex-1 items-center justify-center px-5 pb-20 pt-16 text-center sm:pt-24 md:px-10 md:pt-28">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ export default function heroSection() {
           className="max-w-5xl"
         >
           {/* Heading */}
-          <h1 className="font-primary text-5xl font-black leading-tight text-white md:text-7xl">
+          <h1 className="font-primary text-5xl font-black leading-tight text-white sm:text-5xl md:text-7xl">
             Welcome to Premo Heritage
             <br />
             Villa
@@ -47,10 +47,10 @@ export default function heroSection() {
           </p>
 
           {/* Premium Buttons */}
-          <div className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-8">
-            {/* Primary CTA (Shine + Darker Hover + Pointer) */}
+          <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-8 md:mt-12">
+            {/* Primary CTA */}
             <Link href="/booking">
-              <button className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515] sm:w-auto">
+              <button className="group relative flex w-[270px] cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515]">
                 {/* Shine Element */}
                 <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
 
@@ -66,7 +66,7 @@ export default function heroSection() {
 
             {/* Secondary CTA */}
             <Link href="/contact">
-              <button className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm border border-white/30 bg-white/5 px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all duration-500 hover:bg-black/60 sm:w-auto">
+              <button className="group relative flex w-[270px] cursor-pointer items-center justify-center overflow-hidden rounded-sm border border-white/30 bg-white/5 px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all duration-500 hover:bg-black/60">
                 {/* Shine Element */}
                 <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
 
@@ -83,8 +83,8 @@ export default function heroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll Down Animation */}
-      <div className="relative z-10 flex w-full flex-col items-center justify-center pb-4">
+      {/* Scroll Down Animation — absolute so it never pushes content off-screen */}
+      <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2">
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
