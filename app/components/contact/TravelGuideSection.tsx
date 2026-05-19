@@ -46,7 +46,7 @@ export default function TravelGuideSection() {
             Travel Guide
           </p>
 
-          <h2 className="mt-2 font-primary text-2xl font-black leading-tight text-primary sm:text-3xl md:text-4xl lg:text-5xl">
+          <h2 className="mt-2 text-5xl md:text-6xl font-black font-primary text-primary">
             Getting to Premo Heritage Villa
           </h2>
 
@@ -71,7 +71,7 @@ export default function TravelGuideSection() {
                   <Icon className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12" strokeWidth={1.6} />
                 </div>
 
-                <h3 className="font-primary text-base font-bold leading-tight text-[#2f2520] sm:text-lg">
+                <h3 className="font-primary text-xl font-bold leading-tight text-[#2f2520] sm:text-2xl">
                   {option.title}
                 </h3>
 

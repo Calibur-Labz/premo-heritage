@@ -49,7 +49,7 @@ export default function FounderSection() {
                 alt="Premo brand logo"
                 width={60}
                 height={60}
-                className="h-auto w-[100px] object-contain"
+                className="h-auto w-[150px] object-contain"
               />
               <div>
                 <p className="font-primary text-[18px] font-bold text-primary">

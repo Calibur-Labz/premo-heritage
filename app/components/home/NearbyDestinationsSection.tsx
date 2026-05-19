@@ -119,7 +119,7 @@ export default function NearbyDestinationsSection() {
         viewport={{ once: true }}
         className="px-5 text-center md:px-10"
       >
-        <h2 className="font-primary text-5xl font-black text-primary md:text-6xl">
+        <h2 className="text-5xl md:text-6xl font-black font-primary text-primary">
           Nearby Destinations
         </h2>
         <p className="mx-auto mt-3 max-w-2xl px-6 font-secondary text-[16px] font-medium leading-7 text-gray-800">

@@ -221,7 +221,7 @@ export default function GuestStoriesSection() {
       <header className="mb-8 text-center md:mb-12">
         <h2
           id="guest-stories-heading"
-          className="font-primary text-4xl font-black text-primary sm:text-5xl md:text-6xl"
+          className="text-5xl md:text-6xl font-black font-primary text-primary"
         >
           Guest Stories
         </h2>
