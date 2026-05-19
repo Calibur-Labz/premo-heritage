@@ -19,9 +19,9 @@ export default function AncientSection() {
         <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
             <div className="max-w-4xl">
                 
-                <h1 className="font-primary text-5xl font-black text-white md:text-6xl leading-tight">
+                <h2 className="font-primary text-5xl font-black text-white md:text-6xl leading-tight">
                 Taste the Flavors of Ancient Sri Lanka
-                </h1>
+                </h2>
 
                 <p className="mx-auto mt-6 max-w-xl font-lato text-sm leading-7 text-gray-200 md:text-base">
                 Every meal is a ceremony — cooked over firewood, served on banana
