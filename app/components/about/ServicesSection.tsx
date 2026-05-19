@@ -35,7 +35,7 @@ export default function ServicesSection() {
             What We Offer
           </p>
 
-          <h2 className="mb-6 font-primary text-5xl font-black leading-[1] text-primary md:text-6xl">
+          <h2 className="mb-6 font-primary text-5xl font-black leading-tight text-primary md:text-6xl">
             Our Services & Amenities
           </h2>
 

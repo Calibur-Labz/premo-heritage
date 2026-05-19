@@ -21,8 +21,10 @@ export default function Footer() {
         <div className="absolute inset-0 bg-[#8B1A1A]" />
 
         {/* MAIN — matches header's max-w-7xl container */}
-        <div className="relative mx-auto max-w-7xl px-6 pt-20 lg:px-0">
-          <div className="grid gap-x-16 gap-y-12 pb-6 md:grid-cols-2 xl:grid-cols-[1.35fr_1fr_1.05fr_0.9fr]">
+        {/* Mobile: reduced pt-20 to pt-12 and added pb-2 to compress height */}
+        <div className="relative mx-auto max-w-7xl px-6 pt-12 pb-2 md:pt-20 lg:px-0">
+          {/* Mobile: reduced gap-y-12 to gap-y-8 */}
+          <div className="grid gap-x-16 gap-y-8 pb-6 md:grid-cols-2 md:gap-y-12 xl:grid-cols-[1.35fr_1fr_1.05fr_0.9fr]">
 
             {/* COLUMN 1 — Logo + Tagline */}
             <div className="max-w-sm">
@@ -35,10 +37,11 @@ export default function Footer() {
                   className="h-auto w-[86px] object-contain"
                 />
               </Link>
-              <h3 className="mt-8 font-primary text-[24px] font-bold text-white">
+              {/* Mobile: reduced margin top from mt-8 to mt-5 */}
+              <h3 className="mt-5 font-primary text-[24px] font-bold text-white md:mt-8">
                 Premo Heritage Villa
               </h3>
-              <p className=" max-w-[300px] font-secondary text-[16px] leading-8 text-white/70">
+              <p className="max-w-[300px] font-secondary text-[16px] leading-8 text-white/70">
                 A timeless retreat blending colonial heritage with the warmth of
                 Sri Lankan hospitality.
               </p>
@@ -49,7 +52,8 @@ export default function Footer() {
               <h3 className="font-primary text-[24px] font-bold text-white">
                 Our Location
               </h3>
-              <address className="mt-4 space-y-2 font-secondary text-[16px] not-italic leading-7 text-white/70">
+              {/* Mobile: reduced margin top from mt-4 to mt-2.5 */}
+              <address className="mt-2.5 space-y-2 font-secondary text-[16px] not-italic leading-7 text-white/70 md:mt-4">
                 <p>Premo Heritage Villa,</p>
                 <p>Heenatigala,</p>
                 <p>Talpe 80615,</p>
@@ -62,7 +66,8 @@ export default function Footer() {
               <h3 className="font-primary text-[24px] font-bold text-white">
                 Call Centre
               </h3>
-              <div className="mt-4 space-y-2 font-secondary text-[16px] leading-7 text-white/70">
+              {/* Mobile: reduced margin top from mt-4 to mt-2.5 */}
+              <div className="mt-2.5 space-y-2 font-secondary text-[16px] leading-7 text-white/70 md:mt-4">
                 <p>
                   <span className="text-white/90">WhatsApp</span> : +94 11 470 9400
                 </p>
@@ -77,7 +82,8 @@ export default function Footer() {
               <h3 className="font-primary text-[24px] font-bold text-white">
                 Quick Links
               </h3>
-              <div className="mt-4 space-y-3">
+              {/* Mobile: reduced margin top from mt-4 to mt-2.5 and space-y from 3 to 2 */}
+              <div className="mt-2.5 space-y-2 md:mt-4 md:space-y-3">
                 {footerLinks.map((link) => (
                   <Link
                     key={link.label}
@@ -104,7 +110,8 @@ export default function Footer() {
           </div>
 
           {/* Decorative divider */}
-          <div className="mt-12 flex items-center gap-4">
+          {/* Mobile: reduced mt-12 to mt-6 for cleaner spacing before copyright */}
+          <div className="mt-6 flex items-center gap-4 md:mt-12">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <span className="font-primary text-[10px] uppercase tracking-[0.4em] text-white/60">
               Premo
@@ -116,12 +123,13 @@ export default function Footer() {
 
       {/* BOTTOM BAR */}
       <div className="bg-primary">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-12 py-5 pb-7 font-poppins text-xs sm:flex-row sm:items-center sm:justify-between lg:px-0">
+        {/* Mobile: reduced px-12 to px-6, removed excessive pb-7 on mobile, changed text alignment to center for narrow viewports */}
+        <div className="font-poppins mx-auto flex max-w-7xl flex-col gap-2.5 px-6 py-5 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left md:pb-7 lg:px-0">
           <p className="text-[14px] tracking-wide text-white/60">
             All Copyrights Reserved © {new Date().getFullYear()} Premo Heritage Villa
           </p>
 
-          <p className="text-[14px] tracking-wide text-white/60">
+          <p className="font- poppins text-[14px] tracking-wide text-white/60">
             Design &amp; Developed by{" "}
             <a
               href="http://caliburlabz.com/"
