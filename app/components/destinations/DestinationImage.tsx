@@ -13,19 +13,32 @@ export default function DestinationImage({
 }) {
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  
+  // Track asset loading states
+  const [loadedCount, setLoadedCount] = useState(0);
+  
+  // Important change: we only need to wait for the OTHER images (excluding the 1st one)
+  const totalExtraImages = images.length - 1;
+  const extraImagesLoaded = loadedCount >= totalExtraImages;
 
+  // Handle the slideshow interval cycling
   useEffect(() => {
-    if (!isHovered || images.length <= 1) return;
+    if (!isHovered || images.length <= 1 || !extraImagesLoaded) return;
 
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % images.length);
     }, 1300);
 
     return () => clearInterval(id);
-  }, [isHovered, images.length]);
+  }, [isHovered, images.length, extraImagesLoaded]);
 
+  // Reset safely back to the original image preview when cursor leaves
   useEffect(() => {
-    if (!isHovered) setIndex(0);
+    if (!isHovered) {
+      setIndex(0);
+      // Optional: Reset loaded count if you want to force reload, 
+      // but keeping it means it stays cached for the next hover!
+    }
   }, [isHovered]);
 
   return (
@@ -34,6 +47,42 @@ export default function DestinationImage({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* 
+        HYBRID PRELOADER: 
+        Only gets injected into the DOM the moment the user hovers.
+        It fetches images 1 to N on-demand.
+      */}
+      {isHovered && images.length > 1 && (
+        <div className="absolute hidden">
+          {images.slice(1).map((src, i) => (
+            <img
+              key={`preload-${i}`}
+              src={src}
+              alt=""
+              onLoad={() => setLoadedCount((prev) => prev + 1)}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* LOADING OVERLAY */}
+      <AnimatePresence>
+        {isHovered && !extraImagesLoaded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[4px] text-white gap-2"
+          >
+            <div className="h-7 w-7 animate-spin rounded-full border-3 border-white/20 border-t-white" />
+            <span className="text-[11px] font-medium tracking-wide animate-pulse">
+              Loading...
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* CORE DISPLAY CANVAS */}
       <AnimatePresence mode="sync">
         <motion.div
           key={images[index]}
@@ -49,11 +98,13 @@ export default function DestinationImage({
             fill
             sizes="(max-width: 1024px) 100vw, 520px"
             className="object-cover transition-transform duration-700"
+            priority
           />
         </motion.div>
       </AnimatePresence>
 
-      {images.length > 1 && (
+      {/* PAGINATION DOTS */}
+      {images.length > 1 && extraImagesLoaded && (
         <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
           {images.map((_, i) => (
             <span
