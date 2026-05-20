@@ -8,7 +8,6 @@ export default function FounderSection() {
   return (
     <section className="px-6 py-24 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-4">
-
         <div className="flex justify-center">
           <img
             src="/about/founder.jpeg"
@@ -24,21 +23,29 @@ export default function FounderSection() {
           />
 
           <Paragraph>
-            Based in Melbourne, Australia,{" "}
-            <span className="font-semibold">Chef Premo</span> is a graduate
-            of the prestigious{" "}
-            <span className="font-semibold">William Angliss Institute</span>{" "}
-            and has served as{" "}
-            <span className="font-semibold">
-              Executive Chef at Scicluna&apos;s since 2015
-            </span>.
+            Melbourne-based <span className="font-semibold">Chef Premo</span>, a
+            graduate of the prestigious{" "}
+            <span className="font-semibold">William Angliss Institute</span>,
+            brings over two decades of culinary excellence to Premo Heritage
+            Villa.
           </Paragraph>
 
           <Paragraph>
-            His journey across continents from Melbourne&apos;s celebrated kitchens to
-            the coastal soul of southern Sri Lanka inspired the creation of Premo
-            Heritage Villa, where every detail reflects his devotion to authentic
-            flavors and heritage hospitality.
+            Having worked with renowned names including{" "}
+            <span className="font-semibold">Hilton Melbourne CBD</span>,{" "}
+            <span className="font-semibold">Red Cherry Group</span>, and{" "}
+            <span className="font-semibold">Scicluna&apos;s</span>, he now
+            serves as{" "}
+            <span className="font-semibold">
+              Chef Manager at Big Watermelon Bushy Park
+            </span>
+            .
+          </Paragraph>
+
+          <Paragraph>
+            Inspired by Sri Lanka&apos;s southern charm, Chef Premo created
+            Premo Heritage Villa as a place where heritage, flavour, and warm
+            hospitality come together.
           </Paragraph>
 
           {/* Premo Brand Logo */}
@@ -52,10 +59,10 @@ export default function FounderSection() {
                 className="h-auto w-[150px] object-contain"
               />
               <div>
-                <p className="font-primary text-[18px] font-bold text-primary">
+                <p className="font-primary text-[22px] font-bold text-primary">
                   The Premo Brand
                 </p>
-                <p className="font-secondary text-[14px] text-[#6f655b]">
+                <p className="font-secondary text-[16px] text-[#6f655b]">
                   A legacy of culinary craft & heritage hospitality
                 </p>
               </div>

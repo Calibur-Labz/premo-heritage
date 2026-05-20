@@ -13,12 +13,22 @@ export default function heroSection() {
         transition={{ duration: 1.8, ease: "easeOut" }}
         className="absolute inset-0"
       >
+        {/* Desktop Image */}
         <Image
           src="/hero/homePage.jpeg"
           alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
-          className="object-cover"
+          className="hidden object-cover md:block"
+        />
+
+        {/* Mobile Image */}
+        <Image
+          src="/hero/mobile/homePageMob.jpeg"
+          alt="Premo Heritage Villa luxury beachfront view"
+          fill
+          priority
+          className="object-cover md:hidden"
         />
       </motion.div>
 

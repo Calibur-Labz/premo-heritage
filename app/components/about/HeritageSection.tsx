@@ -25,10 +25,10 @@ const galleryImages = [
 
 export default function HeritageSection() {
   return (
-    <section className="px-6 pb-24 md:px-10">
+    <section className="px-6 py-24 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center lg:gap-8">
 
-        <div className="order-2 max-w-2xl lg:order-1 lg:pr-20">
+        <div className="order-1 max-w-2xl lg:order-1 lg:pr-20">
           <SectionHeading
             label="Who We Are"
             title="A Sanctuary Rooted in Sri Lankan Heritage"
@@ -52,7 +52,7 @@ export default function HeritageSection() {
           </Paragraph>
         </div>
 
-        <div className="order-1 lg:order-2">
+        <div className="order-2 lg:order-2">
           <div className="grid grid-cols-2 gap-5">
             {galleryImages.map((image, index) => (
               <div
@@ -75,3 +75,4 @@ export default function HeritageSection() {
     </section>
   );
 }
+
