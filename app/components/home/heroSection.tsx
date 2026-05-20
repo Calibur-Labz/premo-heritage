@@ -33,7 +33,7 @@ export default function heroSection() {
       </motion.div>
 
       {/* Increased Overlay for better contrast */}
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/65" />
 
       {/* Hero Content */}
       <div className="relative z-10 flex flex-1 items-center justify-center px-5 pb-20 pt-16 text-center sm:pt-24 md:px-10 md:pt-28">

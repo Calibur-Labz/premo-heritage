@@ -19,12 +19,21 @@ export default function HeroSection() {
           alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
-          className="object-cover"
+          className="hidden object-cover md:block"
+        />
+
+        {/* Mobile Image */}
+        <Image
+          src="/hero/mobile/bookingPageMob.jpeg"
+          alt="Premo Heritage Villa luxury beachfront view"
+          fill
+          priority
+          className="object-cover md:hidden"
         />
       </motion.div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="absolute inset-0 bg-black/65" />
 
       {/* Decorative subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
@@ -79,11 +88,10 @@ export default function HeroSection() {
             transition={{ duration: 1, delay: 1.1 }}
             className="mx-auto mt-8 max-w-2xl font-secondary text-sm leading-8 text-white/80 md:text-base"
           >
-            Our online booking experience is being crafted with the same care and
-            attention as the villa itself. In the meantime, please reach out to us
-            directly to reserve your heritage stay.
+            Our online booking experience is being crafted with the same care
+            and attention as the villa itself. In the meantime, please reach out
+            to us directly to reserve your heritage stay.
           </motion.p>
-
         </motion.div>
       </div>
 
@@ -94,7 +102,10 @@ export default function HeroSection() {
             Scroll Down
           </span>
 
-          <ChevronDown className="h-6 w-6 text-white md:h-8 md:w-8" strokeWidth={1.5} />
+          <ChevronDown
+            className="h-6 w-6 text-white md:h-8 md:w-8"
+            strokeWidth={1.5}
+          />
         </div>
       </div>
     </section>

@@ -14,17 +14,35 @@ export default function HeroSection() {
         transition={{ duration: 1.8, ease: "easeOut" }}
         className="absolute inset-0"
       >
-        <Image
+        {/* <Image
           src="/hero/contactPage.jpeg"
           alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
           className="object-cover"
+        /> */}
+
+        {/* Desktop Image */}
+        <Image
+          src="/hero/contactPage.jpeg"
+          alt="Premo Heritage Villa luxury beachfront view"
+          fill
+          priority
+          className="hidden object-cover md:block"
+        />
+
+        {/* Mobile Image */}
+        <Image
+          src="/hero/mobile/contactPageMob.jpeg"
+          alt="Premo Heritage Villa luxury beachfront view"
+          fill
+          priority
+          className="object-cover md:hidden"
         />
       </motion.div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/65" />
 
       {/* Hero Content */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-6 text-center">
