@@ -19,7 +19,6 @@ export default function VillaLocationSection() {
     <section className="bg-[#f1eee9] px-6 py-14 sm:py-16 md:px-10 lg:px-0 lg:py-24">
       {/* Mobile & Tab: Decreased spacing gap between content and the map iframe block from 12 to 8 */}
       <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[0.62fr_1.38fr] lg:gap-20">
-        
         {/* Text Details Box */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           {/* Mobile & Tab: Balanced top margin icon spacing */}
@@ -28,8 +27,8 @@ export default function VillaLocationSection() {
           </div>
 
           <h2 className="font-primary text-4xl font-black text-primary md:text-5xl tracking-tight">
-  The Villa Location
-</h2>
+            The Villa Location
+          </h2>
 
           {/* Mobile & Tab: Slightly reduced font size on phones (text-[16px]) for clean breaks, matches original 18px on tablets up */}
           <address className="mt-4 not-italic font-secondary text-[16px] font-medium leading-relaxed text-gray-800 sm:text-[18px] sm:leading-8 md:mt-6">

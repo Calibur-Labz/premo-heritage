@@ -13,15 +13,24 @@ export default function HeroSection() {
         className="absolute inset-0"
       >
         <Image
-          src="/hero/aboutPage.png"
-          alt="Premo Heritage Villa overlooking a lush tropical landscape"
+          src="/hero/aboutPage.jpeg"
+          alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
-          className="object-cover"
+          className="hidden object-cover md:block"
+        />
+
+        {/* Mobile Image */}
+        <Image
+          src="/hero/mobile/aboutUsMob.jpeg"
+          alt="Premo Heritage Villa luxury beachfront view"
+          fill
+          priority
+          className="object-cover md:hidden"
         />
       </motion.div>
 
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/65" />
 
       <div className="relative z-10 flex min-h-screen items-center justify-center px-6 text-center">
         <motion.div
@@ -35,7 +44,9 @@ export default function HeroSection() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl font-secondary text-sm leading-7 text-gray-200 md:text-base">
-            Discover the story behind Premo Heritage Villa, where colonial elegance meets Sri Lankan tradition, creating an unforgettable sanctuary of luxury and culture.
+            Discover the story behind Premo Heritage Villa, where colonial
+            elegance meets Sri Lankan tradition, creating an unforgettable
+            sanctuary of luxury and culture.
           </p>
         </motion.div>
       </div>
