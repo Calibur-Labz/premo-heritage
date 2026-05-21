@@ -12,6 +12,18 @@ const slugify = (str: string) =>
 
 const destinations = [
   {
+    category: "GARDEN",
+    title: "Raju Herbal and Spice Garden",
+    description:
+      "Discover the natural healing traditions of Sri Lanka at Raju Herbal and Spice Garden. Wander through lush greenery filled with aromatic spices, medicinal herbs, and tropical plants while learning about Ayurveda, local remedies, and the island’s rich herbal heritage.",
+    location: "https://maps.app.goo.gl/TPAAF4NoEYUGkcjv5",
+    images: [
+      "/destinations/raju3.png",
+      "/destinations/raju2.png",
+      "/destinations/raju.png",
+    ],
+  },
+  {
     category: "BEACH",
     title: "Mirissa Beach",
     description:

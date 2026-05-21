@@ -9,9 +9,10 @@ const villaAddressLines = [
 ];
 
 const villaMapEmbedUrl =
-  "https://maps.google.com/maps?q=Henagedara,Heenatigala,276H%2BM65,Talpe+80615&ll=5.9908,80.2747&z=12&output=embed";
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.877004170163!2d80.27816!3d6.0116216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae16d24d19205f5%3A0x2b2ea07b710ad9c8!2sPremo%20Heritage%20Villa!5e0!3m2!1sen!2slk!4v1779358571833!5m2!1sen!2slk";
 
-const villaDirectionsUrl = "https://maps.app.goo.gl/CvsWjBJspztTKFcv7";
+const villaDirectionsUrl =
+  "https://maps.app.goo.gl/73vQBTYxdccDLSNp6";
 
 export default function VillaLocationSection() {
   return (
