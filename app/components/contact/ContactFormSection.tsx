@@ -1,6 +1,6 @@
 "use client";
 
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
 import {
   FacebookIcon,
@@ -35,13 +35,47 @@ const socialLinks = [
 ];
 
 export default function ContactFormSection() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
+    "idle",
+  );
+  const [statusMessage, setStatusMessage] = useState("");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
 
-    console.log("Contact form payload:", payload);
+    setStatus("sending");
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message ?? "Unable to send your message.");
+      }
+
+      form.reset();
+      setStatus("success");
+      setStatusMessage("Thank you. Your message has been sent.");
+    } catch (error) {
+      setStatus("error");
+      setStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to send your message. Please try again.",
+      );
+    }
   }
 
   return (
@@ -116,6 +150,7 @@ export default function ContactFormSection() {
                   name="fullName"
                   placeholder="Your Name"
                   autoComplete="name"
+                  required
                   className="mt-2 h-12 w-full border border-[#e7d1c8] bg-transparent px-4 font-secondary text-base font-medium text-gray-800 outline-none transition placeholder:text-[#9c9188] focus:border-primary"
                 />
               </label>
@@ -129,6 +164,7 @@ export default function ContactFormSection() {
                   name="email"
                   placeholder="email@example.com"
                   autoComplete="email"
+                  required
                   className="mt-2 h-12 w-full border border-[#e7d1c8] bg-transparent px-4 font-secondary text-base font-medium text-gray-800 outline-none transition placeholder:text-[#9c9188] focus:border-primary"
                 />
               </label>
@@ -143,6 +179,7 @@ export default function ContactFormSection() {
                 name="phone"
                 placeholder="+94 XX XXX XXXX"
                 autoComplete="tel"
+                required
                 className="mt-2 h-12 w-full border border-[#e7d1c8] bg-transparent px-4 font-secondary text-base font-medium text-gray-800 outline-none transition placeholder:text-[#9c9188] focus:border-primary"
               />
             </label>
@@ -155,22 +192,35 @@ export default function ContactFormSection() {
                 name="message"
                 placeholder="How can we assist you today?"
                 rows={5}
+                required
                 className="mt-2 w-full resize-none border border-[#e7d1c8] bg-transparent px-4 py-3 font-secondary text-base font-medium text-gray-800 outline-none transition placeholder:text-[#9c9188] focus:border-primary"
               />
             </label>
 
             <button
               type="submit"
+              disabled={status === "sending"}
               className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515] sm:w-auto"
             >
               {/* Shine Element */}
               <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
 
               <span className="relative z-10 flex items-center gap-3">
-                Send Inquiry
+                {status === "sending" ? "Sending..." : "Send Inquiry"}
                 <ArrowRight className="h-4 w-4" />
               </span>
             </button>
+
+            {statusMessage ? (
+              <p
+                className={`font-secondary text-sm font-semibold ${
+                  status === "success" ? "text-green-700" : "text-red-700"
+                }`}
+                role="status"
+              >
+                {statusMessage}
+              </p>
+            ) : null}
           </form>
         </div>
       </div>
