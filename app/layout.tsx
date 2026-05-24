@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Cormorant_Garamond, Lato, Poppins } from "next/font/google";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import SiteChrome from "./components/SiteChrome";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -39,9 +39,9 @@ export default function RootLayout({
       <body
         className={`${cormorant.variable} ${lato.variable} ${poppins.variable} min-h-screen`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <SiteChrome>{children}</SiteChrome>
+        </AuthProvider>
       </body>
     </html>
   );

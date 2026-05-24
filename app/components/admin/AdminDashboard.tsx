@@ -1,0 +1,137 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { LogOut, CalendarOff, BookOpen } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
+import BookingsTable from "./BookingsTable";
+import BlockedDatesManager from "./BlockedDatesManager";
+import { getBookings, getBlockedDates } from "../../lib/firestore";
+import type { Booking, BlockedDate } from "../../lib/firestore";
+
+type Tab = "bookings" | "blocked";
+
+export default function AdminDashboard() {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+  const [tab, setTab] = useState<Tab>("bookings");
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [blockedDates, setBlockedDates] = useState<BlockedDate[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  async function fetchData() {
+    setLoadingData(true);
+    try {
+      const [b, d] = await Promise.all([getBookings(), getBlockedDates()]);
+      setBookings(b);
+      setBlockedDates(d);
+    } finally {
+      setLoadingData(false);
+    }
+  }
+
+  useEffect(() => { fetchData(); }, []);
+
+  async function handleLogout() {
+    await logout();
+    router.push("/admin/login");
+  }
+
+  const pendingCount = bookings.filter((b) => b.status === "pending").length;
+
+  return (
+    <div className="min-h-screen bg-[#f9f7f4]">
+      {/* Top bar */}
+      <header className="border-b border-[#eee4da] bg-white px-5 py-3 sm:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Image src="/logo.png" alt="Premo Heritage" width={80} height={40} className="object-contain" />
+            <span className="hidden font-secondary text-xs uppercase tracking-widest text-[#9c9188] sm:block">
+              Admin Dashboard
+            </span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="font-secondary text-xs text-[#9c9188]">{user?.email}</span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 font-secondary text-xs text-[#8B1A1A] hover:underline"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              Sign out
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+        {/* Stats row */}
+        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <StatCard label="Total Bookings" value={bookings.length} />
+          <StatCard label="Pending" value={pendingCount} highlight={pendingCount > 0} />
+          <StatCard label="Blocked Dates" value={blockedDates.length} />
+        </div>
+
+        {/* Tabs */}
+        <div className="mb-6 flex gap-1 border-b border-[#eee4da]">
+          <TabButton
+            active={tab === "bookings"}
+            onClick={() => setTab("bookings")}
+            icon={<BookOpen className="h-4 w-4" />}
+            label="Bookings"
+          />
+          <TabButton
+            active={tab === "blocked"}
+            onClick={() => setTab("blocked")}
+            icon={<CalendarOff className="h-4 w-4" />}
+            label="Blocked Dates"
+          />
+        </div>
+
+        {/* Content */}
+        {loadingData ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#8B1A1A] border-t-transparent" />
+          </div>
+        ) : tab === "bookings" ? (
+          <BookingsTable bookings={bookings} onRefresh={fetchData} />
+        ) : (
+          <BlockedDatesManager
+            blockedDates={blockedDates}
+            adminEmail={user?.email ?? ""}
+            onRefresh={fetchData}
+          />
+        )}
+      </main>
+    </div>
+  );
+}
+
+function StatCard({ label, value, highlight }: { label: string; value: number; highlight?: boolean }) {
+  return (
+    <div className="rounded-sm border border-[#eee4da] bg-white p-5 shadow-[0_2px_10px_rgba(61,38,20,0.04)]">
+      <p className="font-secondary text-[11px] uppercase tracking-widest text-[#9c9188]">{label}</p>
+      <p className={`font-primary mt-2 text-3xl font-black ${highlight ? "text-[#8B1A1A]" : "text-[#2f2520]"}`}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function TabButton({ active, onClick, icon, label }: {
+  active: boolean; onClick: () => void; icon: React.ReactNode; label: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-2 border-b-2 px-4 pb-3 font-secondary text-sm transition ${
+        active
+          ? "border-[#8B1A1A] text-[#8B1A1A]"
+          : "border-transparent text-[#9c9188] hover:text-[#433227]"
+      }`}
+    >
+      {icon}
+      {label}
+    </button>
+  );
+}
