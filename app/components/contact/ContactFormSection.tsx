@@ -12,17 +12,17 @@ import {
 const contactDetails = [
   {
     title: "Our Location",
-    lines: ["Henagedara,", "Heenatigala, Talpe 80615,", "Sri Lanka"],
+    lines: ["Premo Heritage,", "Heenatigala, Talpe 80615,", "Sri Lanka"],
     Icon: MapPin,
   },
   {
     title: "Phone Number",
-    lines: ["+94 76 11 11 111"],
+    lines: ["+61 424 306 604"],
     Icon: Phone,
   },
   {
     title: "Email Address",
-    lines: ["premo@gmail.com"],
+    lines: ["premoheritage@gmail.com"],
     Icon: Mail,
   },
 ];

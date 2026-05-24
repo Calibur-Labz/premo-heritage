@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(curl *)",
+      "Bash(npx --yes install-peerdeps firebase)",
+      "Bash(yarn --version)",
+      "Bash(pnpm --version)",
+      "Bash(yarn add *)",
+      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npm install firebase)",
+      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npm install lodash)"
+    ]
+  }
+}

@@ -9,8 +9,8 @@ const footerLinks = [
 ];
 
 const policyLinks = [
-  { label: "Terms & Conditions", href: "#" },
-  { label: "Privacy Policy", href: "#" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
 ];
 
 export default function Footer() {
@@ -69,7 +69,7 @@ export default function Footer() {
               {/* Mobile: reduced margin top from mt-4 to mt-2.5 */}
               <div className="mt-2.5 space-y-2 font-secondary text-[16px] leading-7 text-white/70 md:mt-4">
                 <p>
-                  <span className="text-white/90">WhatsApp</span> : +94 11 470 9400
+                  <span className="text-white/90">WhatsApp</span> : +61 424 306 604
                 </p>
                 <p className="break-all">
                   <span className="text-white/90">Email</span> : premoheritage@gmail.com
@@ -111,7 +111,7 @@ export default function Footer() {
 
           {/* Decorative divider */}
           {/* Mobile: reduced mt-12 to mt-6 for cleaner spacing before copyright */}
-          <div className="mt-6 flex items-center gap-4 md:mt-12">
+          <div className="flex items-center gap-4">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <span className="font-primary text-[10px] uppercase tracking-[0.4em] text-white/60">
               Premo

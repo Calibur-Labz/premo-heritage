@@ -55,7 +55,7 @@ export default function HeroSection() {
           >
             <Sparkles className="h-3.5 w-3.5 text-[#C9A84C]" />
             <span className="font-secondary text-[11px] uppercase tracking-[0.3em] text-white/90">
-              Reservations Opening Soon
+              Reserve Your Stay
             </span>
           </motion.div>
 
@@ -66,7 +66,7 @@ export default function HeroSection() {
             transition={{ duration: 1, delay: 0.5 }}
             className="font-primary text-6xl font-black leading-tight text-white md:text-7xl lg:text-8xl"
           >
-            Coming Soon
+            Book Your Villa
           </motion.h1>
 
           {/* Decorative Divider */}
@@ -88,9 +88,8 @@ export default function HeroSection() {
             transition={{ duration: 1, delay: 1.1 }}
             className="mx-auto mt-8 max-w-2xl font-secondary text-sm leading-8 text-white/80 md:text-base"
           >
-            Our online booking experience is being crafted with the same care
-            and attention as the villa itself. In the meantime, please reach out
-            to us directly to reserve your heritage stay.
+            Select your preferred dates, explore the villa, and connect with us
+            instantly via WhatsApp to confirm your heritage stay.
           </motion.p>
         </motion.div>
       </div>
