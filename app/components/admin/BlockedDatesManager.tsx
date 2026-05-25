@@ -110,15 +110,12 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
   return (
     <div className="space-y-8">
       {/* Add blocked date / range */}
-      <div className="rounded-sm border border-[#eee4da] bg-[#fbfaf7] p-6">
-        <h3 className="font-primary text-lg font-bold text-[#2f2520]">Block Dates</h3>
-        <p className="mt-1 font-secondary text-sm text-[#9c9188]">
-          Select a single date or a from–to range. All days in the range will be marked unavailable on the calendar.
-        </p>
+      <div className="rounded-sm border border-[#eee4da] bg-[#fff] p-6">
+        <h3 className="font-poppins text-lg font-bold text-[#2f2520]">Block Dates</h3>
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <label className="block">
-            <span className="font-primary text-[12px] font-bold uppercase tracking-[0.22em] text-[#7c6d63]">From</span>
+            <span className="font-poppins text-[14px] font-bold uppercase text-[#7c6d63]">From</span>
             <input
               type="date"
               value={fromDate}
@@ -127,12 +124,12 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
                 setFromDate(e.target.value);
                 if (toDate && e.target.value > toDate) setToDate("");
               }}
-              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-secondary text-sm text-gray-800 outline-none transition focus:border-[#8B1A1A]"
+              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-poppins text-[14px] text-gray-800 outline-none transition focus:border-[#8B1A1A]"
             />
           </label>
 
           <label className="block">
-            <span className="font-primary text-[12px] font-bold uppercase tracking-[0.22em] text-[#7c6d63]">
+            <span className="font-poppins text-[14px] font-bold uppercase text-[#7c6d63]">
               To <span className="normal-case tracking-normal text-[#c5b9b1]">(optional)</span>
             </span>
             <input
@@ -141,12 +138,12 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
               min={fromDate || today}
               disabled={!fromDate}
               onChange={(e) => setToDate(e.target.value)}
-              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-secondary text-sm text-gray-800 outline-none transition focus:border-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
+              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-poppins text-[14px] text-gray-800 outline-none transition focus:border-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
             />
           </label>
 
           <label className="block sm:col-span-2 lg:col-span-1">
-            <span className="font-primary text-[12px] font-bold uppercase tracking-[0.22em] text-[#7c6d63]">
+            <span className="font-poppins text-[14px] font-bold uppercase  text-[#7c6d63]">
               Reason <span className="normal-case tracking-normal text-[#c5b9b1]">(optional)</span>
             </span>
             <input
@@ -154,47 +151,47 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="e.g. Maintenance, Private event"
-              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-secondary text-sm text-gray-800 outline-none transition placeholder:text-[#c5b9b1] focus:border-[#8B1A1A]"
+              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-poppins text-[14px] text-gray-800 outline-none transition placeholder:text-[#c5b9b1] focus:border-[#8B1A1A]"
             />
           </label>
 
           <div className="flex flex-col justify-end gap-1">
             {datesToBlock.length > 1 && (
-              <p className="font-secondary text-xs text-[#C9A84C]">
+              <p className="font-poppins text-xs text-[#C9A84C]">
                 Blocks {datesToBlock.length} dates
               </p>
             )}
             <button
               onClick={handleAdd}
               disabled={!fromDate || adding}
-              className="flex h-11 items-center justify-center gap-2 rounded-sm bg-[#8B1A1A] px-6 font-secondary text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-[#6f1515] disabled:opacity-50"
+              className="flex h-11 items-center justify-center gap-2 rounded-sm bg-[#8B1A1A] px-6 font-poppins text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-[#6f1515] disabled:opacity-50"
             >
               {adding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
               {adding ? "Blocking…" : "Block"}
             </button>
           </div>
         </div>
-        {addError && <p className="mt-2 font-secondary text-sm text-red-600">{addError}</p>}
+        {addError && <p className="mt-2 font-poppins text-[14px] text-red-600">{addError}</p>}
       </div>
 
       {/* Blocked date range records */}
       <div>
-        <h3 className="mb-4 font-primary text-lg font-bold text-[#2f2520]">
+        <h3 className="mb-4 font-poppins text-lg font-bold text-[#2f2520]">
           Blocked Periods{" "}
-          <span className="font-secondary text-sm font-normal text-[#9c9188]">
+          <span className="font-poppins text-[14px] font-normal text-[#9c9188]">
             ({rangeRecords.length} record{rangeRecords.length !== 1 ? "s" : ""} · {blockedDates.length} day{blockedDates.length !== 1 ? "s" : ""} total)
           </span>
         </h3>
 
         {rangeRecords.length === 0 ? (
-          <p className="font-secondary text-sm text-[#c5b9b1]">No dates blocked yet.</p>
+          <p className="font-poppins text-[14px] text-[#c5b9b1]">No dates blocked yet.</p>
         ) : (
           <div className="overflow-hidden rounded-sm border border-[#eee4da] bg-white">
             {/* Table header */}
             <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-[#f5f0e8] bg-[#fbfaf7] px-5 py-2.5 sm:grid-cols-[1.4fr_1fr_auto_auto]">
-              <span className="font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">Period</span>
-              <span className="hidden font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188] sm:block">Reason</span>
-              <span className="font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">Days</span>
+              <span className="font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">Period</span>
+              <span className="hidden font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188] sm:block">Reason</span>
+              <span className="font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">Days</span>
               <span />
             </div>
 
@@ -212,33 +209,33 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
                       <CalendarRange className="h-4 w-4 shrink-0 text-[#C9A84C]" strokeWidth={1.7} />
                       <div>
                         {record.count === 1 ? (
-                          <p className="font-secondary text-sm font-semibold text-[#2f2520]">
+                          <p className="font-poppins text-[14px] font-semibold text-[#2f2520]">
                             {formatDate(record.from)}
                           </p>
                         ) : (
                           <>
-                            <p className="font-secondary text-sm font-semibold text-[#2f2520]">
+                            <p className="font-poppins text-[14px] font-semibold text-[#2f2520]">
                               {formatDate(record.from)}
                             </p>
-                            <p className="font-secondary text-xs text-[#9c9188]">
+                            <p className="font-poppins text-xs text-[#9c9188]">
                               → {formatDate(record.to)}
                             </p>
                           </>
                         )}
                         {/* Reason shown on mobile below the date */}
-                        <p className="mt-0.5 font-secondary text-xs text-[#9c9188] sm:hidden">
+                        <p className="mt-0.5 font-poppins text-xs text-[#9c9188] sm:hidden">
                           {record.reason}
                         </p>
                       </div>
                     </div>
 
                     {/* Reason — desktop only */}
-                    <p className="hidden font-secondary text-sm text-[#7c6d63] sm:block">
+                    <p className="hidden font-poppins text-[14px] text-[#7c6d63] sm:block">
                       {record.reason}
                     </p>
 
                     {/* Day count badge */}
-                    <span className={`inline-block rounded-full px-2.5 py-0.5 font-secondary text-xs font-semibold ${record.count > 1 ? "bg-[#fdf4e3] text-[#C9A84C]" : "bg-[#f5f0e8] text-[#9c9188]"}`}>
+                    <span className={`inline-block rounded-full px-2.5 py-0.5 font-poppins text-xs font-semibold ${record.count > 1 ? "bg-[#fdf4e3] text-[#C9A84C]" : "bg-[#f5f0e8] text-[#9c9188]"}`}>
                       {record.count}d
                     </span>
 

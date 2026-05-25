@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, CalendarDays, CheckCircle2, Loader2 } from "lucide-react";
+import { MessageCircle, CalendarDays, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 import BookingCalendar from "./BookingCalendar";
 import { getBlockedDates, createPendingBooking } from "../../lib/firestore";
 
@@ -16,15 +16,24 @@ function nightsBetween(a: Date, b: Date) {
   return Math.round((b.getTime() - a.getTime()) / 86400000);
 }
 
+// Validation Helpers
+const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validatePhone = (phone: string) => /^\+?[0-9\s\-]{7,15}$/.test(phone);
+
 export default function BookingSection() {
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
 
+  // Form Fields
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
+  // Touch/Blur States for UX validation
+  const [touched, setTouched] = useState({ name: false, phone: false, email: false });
+
+  // System States
   const [loading, setLoading] = useState(false);
   const [booked, setBooked] = useState(false);
   const [error, setError] = useState("");
@@ -36,10 +45,21 @@ export default function BookingSection() {
   }, []);
 
   const nights = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
-  const formReady = checkIn && checkOut && name.trim() && phone.trim() && email.trim();
+
+  // Validation Logic
+  const isNameValid = name.trim().length >= 2;
+  const isPhoneValid = validatePhone(phone);
+  const isEmailValid = validateEmail(email);
+  
+  const datesSelected = !!(checkIn && checkOut);
+  const formValid = isNameValid && isPhoneValid && isEmailValid && datesSelected;
 
   async function handleWhatsApp() {
-    if (!formReady || !checkIn || !checkOut) return;
+    if (!formValid || !checkIn || !checkOut) {
+      // Force trigger all validation errors if they somehow bypass disabled state
+      setTouched({ name: true, phone: true, email: true });
+      return;
+    }
     setLoading(true);
     setError("");
 
@@ -79,12 +99,16 @@ export default function BookingSection() {
   function resetBooking() {
     setCheckIn(null);
     setCheckOut(null);
-    setName(""); setPhone(""); setEmail("");
-    setBooked(false); setError("");
+    setName(""); 
+    setPhone(""); 
+    setEmail("");
+    setTouched({ name: false, phone: false, email: false });
+    setBooked(false); 
+    setError("");
   }
 
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className="bg-white py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         {/* Heading */}
         <motion.div
@@ -115,7 +139,7 @@ export default function BookingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="mb-4 flex items-center gap-2 font-secondary text-sm text-[#7c6d63]">
+            <p className="mb-4 flex items-center gap-2 font-secondary text-sm font-medium text-[#7c6d63]">
               <CalendarDays className="h-4 w-4 text-[#C9A84C]" strokeWidth={1.7} />
               {!checkIn
                 ? "Select your check-in date"
@@ -158,7 +182,7 @@ export default function BookingSection() {
                   </p>
                   <button
                     onClick={resetBooking}
-                    className="mt-2 font-secondary text-xs uppercase tracking-widest text-[#8B1A1A] underline underline-offset-4 hover:text-[#6f1515]"
+                    className="mt-2 font-secondary text-xs uppercase tracking-widest text-[#8B1A1A] underline underline-offset-4 hover:text-[#6f1515] transition"
                   >
                     Start a new inquiry
                   </button>
@@ -181,7 +205,7 @@ export default function BookingSection() {
                   </div>
 
                   {/* Date summary */}
-                  <div className="rounded-sm border border-[#e7d1c8] bg-white p-4">
+                  <div className={`rounded-sm border p-4 transition-colors duration-300 ${datesSelected ? 'border-[#e7d1c8] bg-white' : 'border-amber-200 bg-amber-50/50'}`}>
                     <p className="font-secondary text-xs uppercase tracking-widest text-[#9c9188]">
                       Selected dates
                     </p>
@@ -192,69 +216,80 @@ export default function BookingSection() {
                           ? `${formatDate(checkIn)} → select check-out`
                           : "No dates selected yet"}
                     </p>
-                    {nights > 0 && (
-                      <p className="mt-0.5 font-secondary text-xs text-[#C9A84C]">
+                    {nights > 0 ? (
+                      <p className="mt-0.5 font-secondary text-xs text-[#C9A84C] font-medium">
                         {nights} night{nights !== 1 ? "s" : ""}
+                      </p>
+                    ) : (
+                      <p className="mt-0.5 font-secondary text-xs text-amber-700 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" /> Please select your dates on the calendar first
                       </p>
                     )}
                   </div>
 
-                  {/* Inputs */}
-                  <AnimatePresence>
-                    {checkIn && checkOut && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="flex flex-col gap-5 overflow-hidden"
-                      >
-                        <FormField
-                          label="Full Name"
-                          type="text"
-                          placeholder="Your full name"
-                          value={name}
-                          onChange={setName}
-                        />
-                        <FormField
-                          label="Phone Number"
-                          type="tel"
-                          placeholder="+94 XX XXX XXXX"
-                          value={phone}
-                          onChange={setPhone}
-                        />
-                        <FormField
-                          label="Email Address"
-                          type="email"
-                          placeholder="email@example.com"
-                          value={email}
-                          onChange={setEmail}
-                        />
-                      </motion.div>
+                  {/* Inputs Container */}
+                  <div className="relative">
+                    {/* Visual overlay covering inputs if dates aren't selected to nudge user to calendar */}
+                    {!datesSelected && (
+                      <div className="absolute inset-0 z-10 bg-[#fbfaf7]/60 backdrop-blur-[1px] cursor-not-allowed flex items-center justify-center p-4 text-center" />
                     )}
-                  </AnimatePresence>
+
+                    <div className="flex flex-col gap-5">
+                      <FormField
+                        label="Full Name"
+                        type="text"
+                        placeholder="Your full name"
+                        value={name}
+                        onChange={setName}
+                        onBlur={() => setTouched(prev => ({ ...prev, name: true }))}
+                        error={touched.name && !isNameValid ? "Please enter your name (min 2 characters)" : ""}
+                        disabled={!datesSelected}
+                      />
+                      <FormField
+                        label="Phone Number"
+                        type="tel"
+                        placeholder="+94 XX XXX XXXX"
+                        value={phone}
+                        onChange={setPhone}
+                        onBlur={() => setTouched(prev => ({ ...prev, phone: true }))}
+                        error={touched.phone && !isPhoneValid ? "Please enter a valid phone number" : ""}
+                        disabled={!datesSelected}
+                      />
+                      <FormField
+                        label="Email Address"
+                        type="email"
+                        placeholder="email@example.com"
+                        value={email}
+                        onChange={setEmail}
+                        onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
+                        error={touched.email && !isEmailValid ? "Please enter a valid email address" : ""}
+                        disabled={!datesSelected}
+                      />
+                    </div>
+                  </div>
 
                   {error && (
-                    <p className="font-secondary text-sm text-red-600">{error}</p>
+                    <p className="font-secondary text-sm text-red-600 flex items-center gap-1.5 font-medium bg-red-50 p-3 rounded-sm border border-red-100">
+                      <AlertCircle className="h-4 w-4 shrink-0" /> {error}
+                    </p>
                   )}
 
                   {/* WhatsApp Button */}
                   <button
                     onClick={handleWhatsApp}
-                    disabled={!formReady || loading}
-                    className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-sm bg-[#25D366] px-8 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#1ebe5d] disabled:cursor-not-allowed disabled:opacity-40"
+                    disabled={!formValid || loading}
+                    className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-sm bg-[#25D366] px-8 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#1ebe5d] disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400"
                   >
                     <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
                     {loading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <MessageCircle className="h-4 w-4" />
-                    )}
+                    ) : null}
                     <span className="relative z-10">
                       {loading ? "Saving…" : "Book Now on WhatsApp"}
                     </span>
                   </button>
 
-                  <p className="font-secondary text-[11px] leading-5 text-[#9c9188]">
+                  <p className="font-secondary text-[12px] leading-5 text-[#9c9188] text-center sm:text-left">
                     Clicking the button will open WhatsApp with your booking details pre-filled.
                     We'll confirm availability within 24 hours.
                   </p>
@@ -268,26 +303,52 @@ export default function BookingSection() {
   );
 }
 
-function FormField({
-  label, type, placeholder, value, onChange,
-}: {
+interface FormFieldProps {
   label: string;
   type: string;
   placeholder: string;
   value: string;
+  error?: string;
+  disabled?: boolean;
   onChange: (v: string) => void;
-}) {
+  onBlur: () => void;
+}
+
+function FormField({
+  label, type, placeholder, value, error, disabled, onChange, onBlur
+}: FormFieldProps) {
   return (
-    <label className="block">
-      <span className="font-primary text-[13px] font-bold uppercase tracking-[0.22em] text-[#7c6d63]">
-        {label}
-      </span>
+    <label className="block w-full">
+      <div className="flex justify-between items-center mb-2">
+        <span className={`font-primary text-[12px] font-bold uppercase tracking-[0.22em] ${disabled ? 'text-gray-400' : 'text-[#7c6d63]'}`}>
+          {label}
+        </span>
+        <AnimatePresence>
+          {error && (
+            <motion.span 
+              initial={{ opacity: 0, x: 5 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 5 }}
+              className="text-xs font-secondary font-medium text-red-600"
+            >
+              {error}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
       <input
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-2 h-12 w-full border border-[#e7d1c8] bg-white px-4 font-secondary text-base font-medium text-gray-800 outline-none transition placeholder:text-[#c5b9b1] focus:border-[#8B1A1A]"
+        onBlur={onBlur}
+        disabled={disabled}
+        className={`h-12 w-full border bg-white px-4 font-secondary text-base font-medium text-gray-800 outline-none transition-all placeholder:text-[#c5b9b1]
+          ${error 
+            ? "border-red-500 focus:border-red-600 bg-red-50/10 focus:ring-1 focus:ring-red-500" 
+            : "border-[#e7d1c8] focus:border-[#8B1A1A]"
+          } 
+          disabled:bg-gray-50 disabled:border-gray-200 disabled:placeholder:text-gray-300 disabled:cursor-not-allowed`}
       />
     </label>
   );

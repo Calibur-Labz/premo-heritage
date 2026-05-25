@@ -46,16 +46,16 @@ export default function AdminDashboard() {
       <header className="border-b border-[#eee4da] bg-white px-5 py-3 sm:px-8">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="Premo Heritage" width={80} height={40} className="object-contain" />
-            <span className="hidden font-secondary text-xs uppercase tracking-widest text-[#9c9188] sm:block">
-              Admin Dashboard
+            <Image src="/logo2.png" alt="Premo Heritage" width={80} height={40} className="object-contain" />
+            <span className="hidden font-poppins font-bold text-[18px] uppercase tracking-widest text-[#000] sm:block">
+              Hi, Preminda!
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="font-secondary text-xs text-[#9c9188]">{user?.email}</span>
+            <span className="font-poppins text-[14px] text-[#9c9188]">{user?.email}</span>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 font-secondary text-xs text-[#8B1A1A] hover:underline"
+              className="flex items-center gap-1.5 font-poppins text-[14px] text-[#8B1A1A] hover:underline"
             >
               <LogOut className="h-3.5 w-3.5" />
               Sign out
@@ -110,8 +110,8 @@ export default function AdminDashboard() {
 function StatCard({ label, value, highlight }: { label: string; value: number; highlight?: boolean }) {
   return (
     <div className="rounded-sm border border-[#eee4da] bg-white p-5 shadow-[0_2px_10px_rgba(61,38,20,0.04)]">
-      <p className="font-secondary text-[11px] uppercase tracking-widest text-[#9c9188]">{label}</p>
-      <p className={`font-primary mt-2 text-3xl font-black ${highlight ? "text-[#8B1A1A]" : "text-[#2f2520]"}`}>
+      <p className="font-poppins text-[14px] uppercase tracking-widest text-[#9c9188]">{label}</p>
+      <p className={`font-poppins mt-2 text-3xl font-black ${highlight ? "text-[#8B1A1A]" : "text-[#2f2520]"}`}>
         {value}
       </p>
     </div>
@@ -124,7 +124,7 @@ function TabButton({ active, onClick, icon, label }: {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 border-b-2 px-4 pb-3 font-secondary text-sm transition ${
+      className={`flex items-center gap-2 border-b-2 px-4 pb-3 font-poppins text-[14px] transition ${
         active
           ? "border-[#8B1A1A] text-[#8B1A1A]"
           : "border-transparent text-[#9c9188] hover:text-[#433227]"

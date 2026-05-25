@@ -32,7 +32,7 @@ export default function GallerySection() {
     );
 
   return (
-    <section className="bg-[#fbfaf7] py-20 lg:py-28">
+    <section className="bg-[#fbfaf7] py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         {/* Heading */}
         <motion.div

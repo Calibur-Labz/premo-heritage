@@ -120,16 +120,16 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
       {/* Day-of-week labels */}
       <div className="mb-2 grid grid-cols-7 text-center">
         {DAYS.map((d) => (
-          <div key={d} className="py-2 font-secondary text-xs font-bold uppercase tracking-widest text-[#9c9188]/80">
+          <div key={d} className="py-2 font-secondary text-xs font-bold uppercase tracking-widest text-[#9c9188]">
             {d}
           </div>
         ))}
       </div>
 
       {/* Date grid */}
-      <div className="grid grid-cols-7 gap-y-1.5 isolation-auto">
+      <div className="grid grid-cols-7 gap-y-5 isolation-auto">
         {cells.map((day, idx) => {
-          if (!day) return <div key={`empty-${idx}`} className="h-10" />;
+          if (!day) return <div key={`empty-${idx}`} className="my-0.5 h-10 border border-transparent" />;
 
           const key = toKey(day);
           const isPast = day < today;
@@ -141,26 +141,27 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
           const inRange = isInRange(day);
           const isToday = isSameDay(day, today);
 
-          // Range block wrapping styles (Square with border radius layout)
+          // Range block wrapping styles
           let cellClass = "relative h-10 flex items-center justify-center my-0.5 ";
           if (inRange) cellClass += "bg-[#f5e8e8]";
           if (isStart && checkOut) cellClass += " bg-[#f5e8e8] rounded-l-xl";
           if (isEnd && checkIn) cellClass += " bg-[#f5e8e8] rounded-r-xl";
 
-          // Core interactive button styles (Configured to rounded squares)
-          let dayClass = "relative flex h-10 w-10 items-center justify-center font-secondary text-sm font-medium transition-all duration-200 z-10 rounded-xl ";
+          // Core interactive button styles
+          let dayClass = "relative flex h-12 w-12 items-center justify-center font-secondary text-sm font-semibold transition-all duration-200 z-10 rounded-xl border border-[#eee4da]/80 ";
 
           if (disabled) {
-            dayClass += "cursor-not-allowed text-[#c5b9b1]/60 line-through rounded-none";
+            // INCREASED OPACITY: Changed to dark brown base with full opacity, but used line-through and softer borders to denote availability.
+            dayClass += "cursor-not-allowed text-[#433227]/40 line-through rounded-none border-[#eee4da]/20";
           } else if (isStart || isEnd) {
-            // Primary color (#8B1A1A) applied here with square border-radius
-            dayClass += "cursor-pointer bg-[#8B1A1A] font-semibold text-white shadow-md shadow-[#8B1A1A]/20 scale-105";
+            dayClass += "cursor-pointer bg-[#8B1A1A] border-[#8B1A1A] font-bold text-white shadow-md shadow-[#8B1A1A]/20 scale-105";
           } else if (inRange) {
-            dayClass += "cursor-pointer text-[#8B1A1A] hover:bg-[#8B1A1A]/10 rounded-none";
+            dayClass += "cursor-pointer text-[#8B1A1A] font-bold border-[#e7c8c8]/40 hover:bg-[#8B1A1A]/10 rounded-none";
           } else if (isToday) {
-            dayClass += "cursor-pointer text-[#433227] font-bold ring-2 ring-[#C9A84C] ring-offset-2";
+            dayClass += "cursor-pointer text-[#2f2520] font-extrabold ring-2 ring-[#C9A84C] ring-offset-2 border-transparent";
           } else {
-            dayClass += "cursor-pointer text-[#433227] hover:bg-[#f5f0e8] hover:text-[#2f2520] active:scale-95";
+            // INCREASED OPACITY: Changed base text to a dark solid tone (#2f2520) instead of semi-muted brown
+            dayClass += "cursor-pointer text-[#2f2520] hover:border-[#eee4da]/80 hover:bg-[#f5f0e8] active:scale-95";
           }
 
           return (
@@ -184,7 +185,7 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
         <LegendItem color="bg-[#8B1A1A] rounded-md" label="Selected" />
         <LegendItem color="bg-[#f5e8e8] border border-[#e7c8c8]/60 rounded-md" label="In range" />
         <LegendItem color="ring-2 ring-[#C9A84C] ring-offset-1 rounded-md" label="Today" />
-        <LegendItem color="bg-[#c5b9b1]/40 line-through rounded-md" label="Unavailable" />
+        <LegendItem color="bg-[#433227]/40 line-through rounded-md" label="Unavailable" />
       </div>
     </div>
   );
@@ -194,7 +195,7 @@ function LegendItem({ color, label }: { color: string; label: string }) {
   return (
     <div className="flex items-center gap-2">
       <span className={`h-3.5 w-3.5 shrink-0 ${color}`} />
-      <span className="font-secondary text-xs font-medium text-[#9c9188]">{label}</span>
+      <span className="font-secondary text-xs font-semibold text-[#2f2520]">{label}</span>
     </div>
   );
 }
