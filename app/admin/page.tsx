@@ -17,7 +17,7 @@ export default function AdminPage() {
 
   if (loading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f9f7f4]">
+      <div className="flex min-h-screen items-center justify-center bg-white ">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#8B1A1A] border-t-transparent" />
       </div>
     );

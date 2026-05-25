@@ -122,7 +122,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
     return (
       <div className="flex flex-col items-center gap-3 py-16 text-center">
         <p className="font-primary text-xl text-[#9c9188]">No bookings yet</p>
-        <p className="font-secondary text-sm text-[#c5b9b1]">
+        <p className="font-poppins text-[14px] text-[#c5b9b1]">
           Guest bookings submitted via WhatsApp will appear here.
         </p>
       </div>
@@ -133,12 +133,12 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
     <div>
       {/* ── Header bar ── */}
       <div className="mb-4 flex items-center justify-between">
-        <p className="font-secondary text-sm text-[#7c6d63]">
+        <p className="font-poppins text-[14px] text-[#7c6d63]">
           {bookings.length} booking{bookings.length !== 1 ? "s" : ""} found
         </p>
         <button
           onClick={onRefresh}
-          className="flex items-center gap-2 font-secondary text-xs text-[#8B1A1A] hover:underline"
+          className="flex items-center gap-2 font-poppins text-xs text-[#8B1A1A] hover:underline"
         >
           <RefreshCw className="h-3.5 w-3.5" />
           Refresh
@@ -154,7 +154,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                 (h) => (
                   <th
                     key={h}
-                    className="px-4 py-3 font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]"
+                    className="px-4 py-3 font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]"
                   >
                     {h}
                   </th>
@@ -166,10 +166,10 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
             {bookings.map((b) => (
               <tr key={b.id} className="bg-white hover:bg-[#fdfcfa]">
                 <td className="px-4 py-4">
-                  <p className="font-secondary text-sm font-semibold text-[#2f2520]">
+                  <p className="font-poppins text-[15px] font-semibold text-[#2f2520]">
                     {b.guestName}
                   </p>
-                  <p className="font-secondary text-xs text-[#9c9188]">
+                  <p className="font-poppins text-xs text-[#9c9188]">
                     {b.createdAt?.toDate().toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "short",
@@ -177,30 +177,30 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     })}
                   </p>
                 </td>
-                <td className="px-4 py-4 font-secondary text-sm text-[#433227]">
+                <td className="px-4 py-4 font-poppins text-[14px] text-[#433227]">
                   <span className="block">{b.checkIn}</span>
                   <span className="block text-[#9c9188]">→ {b.checkOut}</span>
                 </td>
-                <td className="px-4 py-4 font-secondary text-sm text-[#433227]">
+                <td className="px-4 py-4 font-poppins text-[14px] text-[#433227]">
                   {b.nights}
                 </td>
                 <td className="px-4 py-4">
                   <a
                     href={`tel:${b.guestPhone}`}
-                    className="block font-secondary text-sm text-[#8B1A1A] hover:underline"
+                    className="block font-poppins text-[14px] text-[#8B1A1A] hover:underline"
                   >
                     {b.guestPhone}
                   </a>
                   <a
                     href={`mailto:${b.guestEmail}`}
-                    className="block font-secondary text-xs text-[#9c9188] hover:underline"
+                    className="block font-poppins text-[12px] text-[#9c9188] hover:underline"
                   >
                     {b.guestEmail}
                   </a>
                 </td>
                 <td className="px-4 py-4">
                   <span
-                    className={`inline-block rounded-full border px-3 py-0.5 font-secondary text-xs capitalize ${STATUS_STYLES[b.status]}`}
+                    className={`inline-block rounded-full border px-3 py-0.5 font-poppins text-[12px] capitalize ${STATUS_STYLES[b.status]}`}
                   >
                     {b.status}
                   </span>
@@ -215,7 +215,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                       onChange={(e) =>
                         changeStatus(b.id, e.target.value as Booking["status"])
                       }
-                      className="border border-[#e7d1c8] bg-white px-2 py-1.5 font-secondary text-xs text-[#433227] outline-none transition focus:border-[#8B1A1A] disabled:opacity-50"
+                      className="border border-[#e7d1c8] bg-white px-2 py-1.5 font-poppins text-[14px] text-[#433227] outline-none transition focus:border-[#8B1A1A] disabled:opacity-50 rounded border"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
@@ -271,7 +271,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                 <div>
                   <label
                     htmlFor="edit-booking-guest-name"
-                    className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]"
+                    className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]"
                   >
                     Guest Name
                   </label>
@@ -282,11 +282,11 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     onChange={(e) =>
                       handleEditField("guestName", e.target.value)
                     }
-                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-secondary text-sm text-[#433227] outline-none focus:border-[#8B1A1A]"
+                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-poppins text-[14px] text-[#433227] outline-none focus:border-[#8B1A1A]"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
+                  <label className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
                     Status
                   </label>
                   <select
@@ -294,7 +294,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     onChange={(e) => handleEditField("status", e.target.value)}
                     title="Booking status"
                     aria-label="Booking status"
-                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-secondary text-sm text-[#433227] outline-none focus:border-[#8B1A1A]"
+                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-poppins text-[14px] text-[#433227] outline-none focus:border-[#8B1A1A]"
                   >
                     <option value="pending">Pending</option>
                     <option value="confirmed">Confirmed</option>
@@ -305,7 +305,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
+                  <label className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
                     Email
                   </label>
                   <input
@@ -316,11 +316,11 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     }
                     title="Guest email"
                     aria-label="Guest email"
-                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-secondary text-sm text-[#433227] outline-none focus:border-[#8B1A1A]"
+                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-poppins text-[14px] text-[#433227] outline-none focus:border-[#8B1A1A]"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
+                  <label className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
                     Phone
                   </label>
                   <input
@@ -331,14 +331,14 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     }
                     title="Guest phone"
                     aria-label="Guest phone"
-                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-secondary text-sm text-[#433227] outline-none focus:border-[#8B1A1A]"
+                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-poppins text-[14px] text-[#433227] outline-none focus:border-[#8B1A1A]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
-                  <label className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
+                  <label className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
                     Check-In
                   </label>
                   <input
@@ -347,11 +347,11 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     onChange={(e) => handleEditField("checkIn", e.target.value)}
                     title="Check-in date"
                     aria-label="Check-in date"
-                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-secondary text-sm text-[#433227] outline-none focus:border-[#8B1A1A]"
+                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-poppins text-[14px] text-[#433227] outline-none focus:border-[#8B1A1A]"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
+                  <label className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
                     Check-Out
                   </label>
                   <input
@@ -362,11 +362,11 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     }
                     title="Check-out date"
                     aria-label="Check-out date"
-                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-secondary text-sm text-[#433227] outline-none focus:border-[#8B1A1A]"
+                    className="w-full rounded border border-[#eee4da] px-3 py-2 font-poppins text-[14px] text-[#433227] outline-none focus:border-[#8B1A1A]"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
+                  <label className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">
                     Nights
                   </label>
                   <input
@@ -375,7 +375,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                     readOnly
                     title="Nights"
                     aria-label="Nights"
-                    className="w-full rounded border border-[#eee4da] bg-[#fbfaf7] px-3 py-2 font-secondary text-sm text-[#9c9188] outline-none"
+                    className="w-full rounded border border-[#eee4da] bg-[#fbfaf7] px-3 py-2 font-poppins text-[14px] text-[#9c9188] outline-none"
                   />
                 </div>
               </div>
@@ -383,7 +383,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
               <div>
                 <label
                   htmlFor="edit-whatsapp-message"
-                  className="mb-1 block font-secondary text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]"
+                  className="mb-1 block font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]"
                 >
                   WhatsApp Message (read-only)
                 </label>
@@ -392,12 +392,12 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                   value={editingBooking.whatsappMessage}
                   readOnly
                   rows={3}
-                  className="w-full rounded border border-[#eee4da] bg-[#fbfaf7] px-3 py-2 font-secondary text-xs text-[#9c9188] outline-none"
+                  className="w-full rounded border border-[#eee4da] bg-[#fbfaf7] px-3 py-2 font-poppins text-xs text-[#9c9188] outline-none"
                 />
               </div>
 
               {editError && (
-                <p className="font-secondary text-xs text-red-600">
+                <p className="font-poppins text-xs text-red-600">
                   {editError}
                 </p>
               )}
@@ -408,14 +408,14 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
               <button
                 onClick={() => setEditingBooking(null)}
                 disabled={editLoading}
-                className="rounded border border-[#eee4da] px-4 py-2 font-secondary text-sm text-[#7c6d63] transition hover:bg-[#fbfaf7] disabled:opacity-50"
+                className="rounded border border-[#eee4da] px-4 py-2 font-poppins text-[14px] text-[#7c6d63] transition hover:bg-[#fbfaf7] disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={saveEdit}
                 disabled={editLoading}
-                className="flex items-center gap-2 rounded bg-[#8B1A1A] px-4 py-2 font-secondary text-sm text-white transition hover:bg-[#6f1515] disabled:opacity-50"
+                className="flex items-center gap-2 rounded bg-[#8B1A1A] px-4 py-2 font-poppins text-[14px] text-white transition hover:bg-[#6f1515] disabled:opacity-50"
               >
                 {editLoading && (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -447,7 +447,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
             </div>
 
             <div className="px-6 py-5">
-              <p className="font-secondary text-sm text-[#433227]">
+              <p className="font-poppins text-[14px] text-[#433227]">
                 Are you sure you want to delete{" "}
                 <span className="font-semibold">
                   {deletingBooking.guestName}
@@ -455,7 +455,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                 &apos;s booking? This action cannot be undone.
               </p>
               {deleteError && (
-                <p className="mt-3 font-secondary text-xs text-red-600">
+                <p className="mt-3 font-poppins text-[14px] text-red-600">
                   {deleteError}
                 </p>
               )}
@@ -465,14 +465,14 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
               <button
                 onClick={() => setDeletingBooking(null)}
                 disabled={deleteLoading}
-                className="rounded border border-[#eee4da] px-4 py-2 font-secondary text-sm text-[#7c6d63] transition hover:bg-[#fbfaf7] disabled:opacity-50"
+                className="rounded border border-[#eee4da] px-4 py-2 font-poppins text-[14px] text-[#7c6d63] transition hover:bg-[#fbfaf7] disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={deleteLoading}
-                className="flex items-center gap-2 rounded bg-red-600 px-4 py-2 font-secondary text-sm text-white transition hover:bg-red-700 disabled:opacity-50"
+                className="flex items-center gap-2 rounded bg-red-600 px-4 py-2 font-poppins text-[14px] text-white transition hover:bg-red-700 disabled:opacity-50"
               >
                 {deleteLoading && (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
