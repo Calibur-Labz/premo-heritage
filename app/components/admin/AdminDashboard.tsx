@@ -42,7 +42,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#f9f7f4]">
-      {/* Top bar */}
       <header className="border-b border-[#eee4da] bg-white px-5 py-3 sm:px-8">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-3">
@@ -65,14 +64,12 @@ export default function AdminDashboard() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
-        {/* Stats row */}
         <div className="mb-8 grid grid-cols-3 gap-3 sm:gap-4">
           <StatCard label="Total Bookings" value={bookings.length} />
           <StatCard label="Pending" value={pendingCount} highlight={pendingCount > 0} />
           <StatCard label="Blocked Dates" value={blockedDates.length} />
         </div>
 
-        {/* Tabs */}
         <div className="mb-6 flex gap-1 border-b border-[#eee4da]">
           <TabButton
             active={tab === "bookings"}
@@ -88,7 +85,6 @@ export default function AdminDashboard() {
           />
         </div>
 
-        {/* Content */}
         {loadingData ? (
           <div className="flex items-center justify-center py-20">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#8B1A1A] border-t-transparent" />

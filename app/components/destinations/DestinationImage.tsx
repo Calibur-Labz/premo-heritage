@@ -14,14 +14,11 @@ export default function DestinationImage({
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   
-  // Track asset loading states
   const [loadedCount, setLoadedCount] = useState(0);
   
-  // Important change: we only need to wait for the OTHER images (excluding the 1st one)
   const totalExtraImages = images.length - 1;
   const extraImagesLoaded = loadedCount >= totalExtraImages;
 
-  // Handle the slideshow interval cycling
   useEffect(() => {
     if (!isHovered || images.length <= 1 || !extraImagesLoaded) return;
 
@@ -32,12 +29,9 @@ export default function DestinationImage({
     return () => clearInterval(id);
   }, [isHovered, images.length, extraImagesLoaded]);
 
-  // Reset safely back to the original image preview when cursor leaves
   useEffect(() => {
     if (!isHovered) {
       setIndex(0);
-      // Optional: Reset loaded count if you want to force reload, 
-      // but keeping it means it stays cached for the next hover!
     }
   }, [isHovered]);
 
@@ -47,11 +41,6 @@ export default function DestinationImage({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* 
-        HYBRID PRELOADER: 
-        Only gets injected into the DOM the moment the user hovers.
-        It fetches images 1 to N on-demand.
-      */}
       {isHovered && images.length > 1 && (
         <div className="absolute hidden">
           {images.slice(1).map((src, i) => (
@@ -65,7 +54,6 @@ export default function DestinationImage({
         </div>
       )}
 
-      {/* LOADING OVERLAY */}
       <AnimatePresence>
         {isHovered && !extraImagesLoaded && (
           <motion.div
@@ -82,7 +70,6 @@ export default function DestinationImage({
         )}
       </AnimatePresence>
 
-      {/* CORE DISPLAY CANVAS */}
       <AnimatePresence mode="sync">
         <motion.div
           key={images[index]}
@@ -103,7 +90,6 @@ export default function DestinationImage({
         </motion.div>
       </AnimatePresence>
 
-      {/* PAGINATION DOTS */}
       {images.length > 1 && extraImagesLoaded && (
         <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
           {images.map((_, i) => (

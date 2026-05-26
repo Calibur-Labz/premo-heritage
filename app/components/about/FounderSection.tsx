@@ -48,7 +48,6 @@ export default function FounderSection() {
             hospitality come together.
           </Paragraph>
 
-          {/* Premo Brand Logo */}
           <div className="mt-10 flex items-center gap-4">
             <div className="flex items-center gap-3">
               <Image

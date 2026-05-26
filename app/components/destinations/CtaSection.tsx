@@ -26,7 +26,6 @@ export default function CtaSection() {
           <Link href="/booking">
             <button className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm border border-white/40 bg-white/5 px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all duration-500 hover:bg-black/30 sm:w-auto">
 
-              {/* Shine Element */}
               <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
 
               <span className="relative z-10 flex items-center gap-3">

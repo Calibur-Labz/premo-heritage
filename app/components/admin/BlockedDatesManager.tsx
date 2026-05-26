@@ -109,12 +109,10 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
 
   return (
     <div className="space-y-8">
-      {/* Add blocked date / range */}
       <div className="rounded-sm border border-[#eee4da] bg-[#fff] p-6">
         <h3 className="font-poppins text-lg font-bold text-[#2f2520]">Block Dates</h3>
 
         <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-4 items-start">
-          {/* Calendar — full width on mobile/tablet, 3/4 on desktop */}
           <div className="lg:col-span-3">
             <AdminDatePicker
               blockedDates={blockedDates.map((d) => d.date)}
@@ -124,7 +122,6 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
             />
           </div>
 
-          {/* Reason + Block button — 1/4 width */}
           <div className="flex flex-col gap-4">
             <label className="block">
               <span className="font-poppins text-[14px] font-bold uppercase text-[#7c6d63]">
@@ -159,7 +156,6 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
         {addError && <p className="mt-2 font-poppins text-[14px] text-red-600">{addError}</p>}
       </div>
 
-      {/* Blocked date range records */}
       <div>
         <h3 className="mb-4 font-poppins text-lg font-bold text-[#2f2520]">
           Blocked Periods{" "}
@@ -172,7 +168,6 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
           <p className="font-poppins text-[14px] text-[#c5b9b1]">No dates blocked yet.</p>
         ) : (
           <div className="overflow-hidden rounded-sm border border-[#eee4da] bg-white">
-            {/* Table header */}
             <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-[#f5f0e8] bg-[#fbfaf7] px-5 py-2.5 sm:grid-cols-[1.4fr_1fr_auto_auto]">
               <span className="font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188]">Period</span>
               <span className="hidden font-poppins text-[11px] font-semibold uppercase tracking-widest text-[#9c9188] sm:block">Reason</span>
@@ -180,7 +175,6 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
               <span />
             </div>
 
-            {/* Rows */}
             <div className="divide-y divide-[#f5f0e8]">
               {rangeRecords.map((record) => {
                 const isRemoving = removing === record.from;
@@ -189,7 +183,6 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
                     key={`${record.from}-${record.to}`}
                     className="grid grid-cols-[1fr_auto_auto] items-center gap-4 px-5 py-4 transition hover:bg-[#fdfcfa] sm:grid-cols-[1.4fr_1fr_auto_auto]"
                   >
-                    {/* Date range */}
                     <div className="flex items-center gap-2.5">
                       <CalendarRange className="h-4 w-4 shrink-0 text-[#C9A84C]" strokeWidth={1.7} />
                       <div>
@@ -207,24 +200,20 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
                             </p>
                           </>
                         )}
-                        {/* Reason shown on mobile below the date */}
                         <p className="mt-0.5 font-poppins text-xs text-[#9c9188] sm:hidden">
                           {record.reason}
                         </p>
                       </div>
                     </div>
 
-                    {/* Reason — desktop only */}
                     <p className="hidden font-poppins text-[14px] text-[#7c6d63] sm:block">
                       {record.reason}
                     </p>
 
-                    {/* Day count badge */}
                     <span className={`inline-block rounded-full px-2.5 py-0.5 font-poppins text-xs font-semibold ${record.count > 1 ? "bg-[#fdf4e3] text-[#C9A84C]" : "bg-[#f5f0e8] text-[#9c9188]"}`}>
                       {record.count}d
                     </span>
 
-                    {/* Delete */}
                     <button
                       onClick={() => handleRemoveRange(record)}
                       disabled={isRemoving}

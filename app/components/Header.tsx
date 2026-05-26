@@ -55,7 +55,6 @@ export default function Header() {
             />
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8 lg:gap-16 text-base font-bold uppercase tracking-widest text-white font-primary">
             {navLinks.map((link) => (
               <Link
@@ -68,7 +67,6 @@ export default function Header() {
             ))}
           </div>
 
-          {/* Mobile Hamburger Button */}
           <button
             className="md:hidden text-white p-2"
             onClick={() => setIsMenuOpen(true)}
@@ -79,7 +77,6 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <>

@@ -27,14 +27,11 @@ function calcNights(checkIn: string, checkOut: string): number {
 
 export default function BookingsTable({ bookings, onRefresh }: Props) {
   const [updating, setUpdating] = useState<string | null>(null);
-
-  // Edit modal state
   const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
   const [editForm, setEditForm] = useState<Partial<Booking>>({});
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState("");
 
-  // Delete confirm state
   const [deletingBooking, setDeletingBooking] = useState<Booking | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
@@ -131,7 +128,6 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
 
   return (
     <div>
-      {/* ── Header bar ── */}
       <div className="mb-4 flex items-center justify-between">
         <p className="font-poppins text-[14px] text-[#7c6d63]">
           {bookings.length} booking{bookings.length !== 1 ? "s" : ""} found
@@ -145,11 +141,9 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
         </button>
       </div>
 
-      {/* ── Mobile cards (< md) ── */}
       <div className="md:hidden space-y-3">
         {bookings.map((b) => (
           <div key={b.id} className="rounded-sm border border-[#eee4da] bg-white p-4">
-            {/* Name + status */}
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="font-poppins text-[15px] font-semibold text-[#2f2520]">{b.guestName}</p>
@@ -162,7 +156,6 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
               </span>
             </div>
 
-            {/* Dates */}
             <div className="mt-3 flex items-center gap-2 font-poppins text-[14px] text-[#433227]">
               <span>{b.checkIn}</span>
               <span className="text-[#9c9188]">→</span>
@@ -170,13 +163,11 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
               <span className="ml-auto font-poppins text-xs text-[#9c9188]">{b.nights} night{b.nights !== 1 ? "s" : ""}</span>
             </div>
 
-            {/* Contact */}
             <div className="mt-2 flex flex-col gap-0.5">
               <a href={`tel:${b.guestPhone}`} className="font-poppins text-[14px] text-[#8B1A1A] hover:underline">{b.guestPhone}</a>
               <a href={`mailto:${b.guestEmail}`} className="font-poppins text-xs text-[#9c9188] hover:underline">{b.guestEmail}</a>
             </div>
 
-            {/* Actions */}
             <div className="mt-3 flex items-center gap-2 border-t border-[#f5f0e8] pt-3">
               <select
                 value={b.status}
@@ -209,7 +200,6 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
         ))}
       </div>
 
-      {/* ── Desktop table (≥ md) ── */}
       <div className="hidden md:block overflow-x-auto rounded-sm border border-[#eee4da]">
         <table className="w-full min-w-[760px] text-left">
           <thead className="border-b border-[#eee4da] bg-[#fbfaf7]">
@@ -309,11 +299,9 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
         </table>
       </div>
 
-      {/* ── Edit Modal ── */}
       {editingBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
           <div className="w-full max-w-lg rounded-xl bg-white shadow-2xl max-h-[90vh] flex flex-col">
-            {/* Modal header */}
             <div className="flex items-center justify-between border-b border-[#eee4da] px-6 py-4">
               <h2 className="font-primary text-xl font-bold text-[#2f2520]">
                 Edit Booking
@@ -329,7 +317,6 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
               </button>
             </div>
 
-            {/* Modal body */}
             <div className="space-y-4 overflow-y-auto px-6 py-5">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
@@ -491,7 +478,6 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
         </div>
       )}
 
-      {/* ── Delete Confirm Dialog ── */}
       {deletingBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <div className="w-full max-w-sm rounded-xl bg-white shadow-2xl">

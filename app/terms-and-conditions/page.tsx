@@ -32,7 +32,7 @@ const rules = [
   {
     icon: Volume2,
     title: "Quiet Hours",
-    body: "Quiet hours are observed between 10 PM and 8 AM. Loud music, amplified sound, or events require prior written permission from management.",
+    body: "Quiet hours are observed between 12 AM and 8 AM. Parties, loud music, amplified sound, or events require prior permission from management.",
   },
   {
     icon: Ban,
@@ -91,7 +91,6 @@ const prohibited = [
 export default function TermsAndConditions() {
   return (
     <main className="min-h-screen bg-white text-[#433227]">
-
       {/* ── HERO ── */}
       <section className="relative bg-primary px-6 py-32 text-center md:py-40">
         <div className="absolute inset-0 bg-[#6f1515] opacity-40" />
@@ -242,9 +241,9 @@ export default function TermsAndConditions() {
               Property Rules
             </h2>
             <p className="max-w-2xl font-secondary text-[17px] leading-8 text-[#6f655b]">
-              These rules exist to preserve the villa&apos;s character, protect all
-              guests, and ensure a peaceful experience for everyone on and near
-              the property.
+              These rules exist to preserve the villa&apos;s character, protect
+              all guests, and ensure a peaceful experience for everyone on and
+              near the property.
             </p>
           </motion.div>
 
@@ -361,8 +360,13 @@ export default function TermsAndConditions() {
                 className={`rounded-[12px] border p-7 ${tier.color}`}
               >
                 <div className="mb-1 flex items-center gap-2">
-                  <CalendarX2 className={`h-5 w-5 ${tier.textColor}`} strokeWidth={1.7} />
-                  <span className={`font-secondary text-sm font-semibold uppercase tracking-[0.15em] ${tier.textColor}`}>
+                  <CalendarX2
+                    className={`h-5 w-5 ${tier.textColor}`}
+                    strokeWidth={1.7}
+                  />
+                  <span
+                    className={`font-secondary text-sm font-semibold uppercase tracking-[0.15em] ${tier.textColor}`}
+                  >
                     {tier.label}
                   </span>
                 </div>
@@ -452,7 +456,10 @@ export default function TermsAndConditions() {
                 variants={fadeUp}
                 className="flex items-start gap-4 rounded-[10px] border border-[#e8e0d4] bg-white px-6 py-5"
               >
-                <Ban className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={1.7} />
+                <Ban
+                  className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                  strokeWidth={1.7}
+                />
                 <span className="font-secondary text-[16px] leading-7 text-[#5d5148]">
                   {item}
                 </span>
@@ -472,7 +479,10 @@ export default function TermsAndConditions() {
             viewport={{ once: true, amount: 0.1 }}
             className="grid gap-8 md:grid-cols-2"
           >
-            <motion.div variants={fadeUp} className="rounded-[12px] border border-[#e8e0d4] bg-[#fffdf9] p-8">
+            <motion.div
+              variants={fadeUp}
+              className="rounded-[12px] border border-[#e8e0d4] bg-[#fffdf9] p-8"
+            >
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#f4f0e8] text-primary">
                 <Shield className="h-5 w-5" strokeWidth={1.7} />
               </div>
@@ -480,16 +490,19 @@ export default function TermsAndConditions() {
                 Limitation of Liability
               </h3>
               <p className="font-secondary text-[16px] leading-7 text-[#6f655b]">
-                Premo Heritage Villa shall not be liable for any personal injury,
-                loss of property, or other damages sustained by guests or their
-                visitors during their stay, except where caused by our gross
-                negligence or willful misconduct. Guests are encouraged to
+                Premo Heritage Villa shall not be liable for any personal
+                injury, loss of property, or other damages sustained by guests
+                or their visitors during their stay, except where caused by our
+                gross negligence or willful misconduct. Guests are encouraged to
                 obtain travel insurance to cover personal belongings and medical
                 emergencies.
               </p>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="rounded-[12px] border border-[#e8e0d4] bg-[#fffdf9] p-8">
+            <motion.div
+              variants={fadeUp}
+              className="rounded-[12px] border border-[#e8e0d4] bg-[#fffdf9] p-8"
+            >
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#f4f0e8] text-primary">
                 <Scale className="h-5 w-5" strokeWidth={1.7} />
               </div>
@@ -520,7 +533,6 @@ export default function TermsAndConditions() {
           </a>
         </p>
       </section>
-
     </main>
   );
 }

@@ -67,7 +67,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
     return key > fromDate && key < toDate;
   }
 
-  // Build calendar grid
   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const cells: (Date | null)[] = [
@@ -79,7 +78,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
   return (
     <div className="w-full select-none rounded-xl border border-[#eee4da]/60 bg-white p-4 shadow-[0_8px_30px_rgb(61,38,20,0.04)] backdrop-blur-sm">
 
-      {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-poppins text-base font-bold tracking-tight text-[#2f2520]">
           {MONTHS[viewMonth]} <span className="font-medium text-[#9c9188]">{viewYear}</span>
@@ -105,7 +103,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
         </div>
       </div>
 
-      {/* Day-of-week labels */}
       <div className="mb-1 grid grid-cols-7 text-center">
         {DAYS.map((d) => (
           <div key={d} className="py-1 font-poppins text-[10px] font-bold uppercase tracking-widest text-[#9c9188]">
@@ -114,7 +111,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
         ))}
       </div>
 
-      {/* Date grid */}
       <div className="grid grid-cols-7 gap-y-2 isolation-auto">
         {cells.map((day, idx) => {
           if (!day) return <div key={`empty-${idx}`} className="h-12 border border-transparent" />;
@@ -126,7 +122,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
           const inRange = isInRange(key);
           const isToday = isSameDay(day, today);
 
-          // Range background wrapper
           let cellClass = "relative h-12 flex items-center justify-center ";
           if (isStart && isEnd) {
             cellClass += "";
@@ -138,7 +133,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
             cellClass += "bg-[#f5e8e8]";
           }
 
-          // Button styles — isStart/isEnd take priority over isBlocked
           let dayClass = "relative flex h-12 w-12 items-center justify-center font-poppins text-sm font-semibold transition-all duration-200 z-10 rounded-lg border border-[#eee4da]/80 ";
 
           if (isStart || isEnd) {
@@ -168,7 +162,6 @@ export default function AdminDatePicker({ blockedDates, fromDate, toDate, onChan
         })}
       </div>
 
-      {/* Legend */}
       <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-[#eee4da]/60 pt-3">
         <LegendItem color="bg-[#8B1A1A] rounded" label="Selected" />
         <LegendItem color="bg-[#f5e8e8] border border-[#e7c8c8]/60 rounded" label="Range" />

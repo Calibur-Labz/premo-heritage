@@ -101,7 +101,6 @@ export default function TravelGuideSection() {
 
           <Link href="/booking">
             <button className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-6 py-3 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515] sm:w-auto sm:px-10 sm:py-4">
-              {/* Shine Element */}
               <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
 
               <span className="relative z-10 flex items-center gap-3">

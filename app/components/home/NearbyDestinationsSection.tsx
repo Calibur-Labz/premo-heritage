@@ -40,11 +40,11 @@ const destinations: Destination[] = [
 ];
 
 const SLOT_STYLES: SlotStyle[] = [
-  { x: -440, scale: 0.7, zIndex: 1, opacity: 0.85 }, // far left
-  { x: -230, scale: 0.85, zIndex: 2, opacity: 1 },   // mid left
-  { x: 0, scale: 1.05, zIndex: 5, opacity: 1 },      // center
-  { x: 230, scale: 0.85, zIndex: 2, opacity: 1 },    // mid right
-  { x: 440, scale: 0.7, zIndex: 1, opacity: 0.85 },  // far right
+  { x: -440, scale: 0.7, zIndex: 1, opacity: 0.85 }, 
+  { x: -230, scale: 0.85, zIndex: 2, opacity: 1 },   
+  { x: 0, scale: 1.05, zIndex: 5, opacity: 1 },      
+  { x: 230, scale: 0.85, zIndex: 2, opacity: 1 },    
+  { x: 440, scale: 0.7, zIndex: 1, opacity: 0.85 }, 
 ];
 
 const getVisibleCount = (width: number) => width < 768 ? 3 : 5;
@@ -61,7 +61,6 @@ export default function NearbyDestinationsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(1200);
 
-  // Track viewport size for responsive spacing
   useEffect(() => {
     const update = () => setViewportWidth(window.innerWidth);
     update();
@@ -69,7 +68,6 @@ export default function NearbyDestinationsSection() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // Autoplay loop — runs continuously, never pauses
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % destinations.length);
@@ -111,7 +109,6 @@ export default function NearbyDestinationsSection() {
 
   return (
     <section className="best-destinations-wrapper overflow-hidden bg-white py-12 md:py-24">
-      {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -127,7 +124,6 @@ export default function NearbyDestinationsSection() {
         </p>
       </motion.div>
 
-      {/* Carousel */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -204,7 +200,6 @@ export default function NearbyDestinationsSection() {
           })}
         </div>
 
-        {/* Dots */}
         <div className="best-dest-dots">
           {destinations.map((_, i) => (
             <button
