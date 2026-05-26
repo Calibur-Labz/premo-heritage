@@ -3,9 +3,9 @@
 import { MapPin, ArrowRight } from "lucide-react";
 
 const villaAddressLines = [
-  "Henagedara,",
-  "Heenatigala, Talpe 80615,",
-  "Sri Lanka",
+  "Premo Heritage Villa,",
+  "Heenatigala, Talpe, ",
+  "Galle, Sri Lanka",
 ];
 
 const villaMapEmbedUrl =

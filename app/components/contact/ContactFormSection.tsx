@@ -29,9 +29,9 @@ const contactDetails = [
 
 const socialLinks = [
   { label: "Facebook", href: "#", Icon: FacebookIcon },
-  { label: "Tripadvisor", href: "#", Icon: TripadvisorIcon },
-  { label: "Instagram", href: "#", Icon: InstagramIcon },
-  { label: "WhatsApp", href: "#", Icon: WhatsappIcon },
+  // { label: "Tripadvisor", href: "#", Icon: TripadvisorIcon },
+  // { label: "Instagram", href: "#", Icon: InstagramIcon },
+  { label: "WhatsApp", href: "+61 424 306 604", Icon: WhatsappIcon },
 ];
 
 export default function ContactFormSection() {
