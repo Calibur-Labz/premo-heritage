@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { BlockedDate } from "../../lib/firestore";
 import { addBlockedDate, removeBlockedDate } from "../../lib/firestore";
 import { Trash2, Plus, Loader2, CalendarRange } from "lucide-react";
+import AdminDatePicker from "./AdminDatePicker";
 
 interface Props {
   blockedDates: BlockedDate[];
@@ -76,7 +77,6 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
   const [removing, setRemoving] = useState<string | null>(null);
   const [addError, setAddError] = useState("");
 
-  const today = new Date().toISOString().split("T")[0];
   const datesToBlock = fromDate ? eachDayBetween(fromDate, toDate || fromDate) : [];
   const rangeRecords = groupIntoRanges(blockedDates);
 
@@ -113,62 +113,47 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
       <div className="rounded-sm border border-[#eee4da] bg-[#fff] p-6">
         <h3 className="font-poppins text-lg font-bold text-[#2f2520]">Block Dates</h3>
 
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <label className="block">
-            <span className="font-poppins text-[14px] font-bold uppercase text-[#7c6d63]">From</span>
-            <input
-              type="date"
-              value={fromDate}
-              min={today}
-              onChange={(e) => {
-                setFromDate(e.target.value);
-                if (toDate && e.target.value > toDate) setToDate("");
-              }}
-              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-poppins text-[14px] text-gray-800 outline-none transition focus:border-[#8B1A1A]"
+        <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-4 items-start">
+          {/* Calendar — full width on mobile/tablet, 3/4 on desktop */}
+          <div className="lg:col-span-3">
+            <AdminDatePicker
+              blockedDates={blockedDates.map((d) => d.date)}
+              fromDate={fromDate}
+              toDate={toDate}
+              onChange={(from, to) => { setFromDate(from); setToDate(to); }}
             />
-          </label>
+          </div>
 
-          <label className="block">
-            <span className="font-poppins text-[14px] font-bold uppercase text-[#7c6d63]">
-              To <span className="normal-case tracking-normal text-[#c5b9b1]">(optional)</span>
-            </span>
-            <input
-              type="date"
-              value={toDate}
-              min={fromDate || today}
-              disabled={!fromDate}
-              onChange={(e) => setToDate(e.target.value)}
-              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-poppins text-[14px] text-gray-800 outline-none transition focus:border-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
-            />
-          </label>
+          {/* Reason + Block button — 1/4 width */}
+          <div className="flex flex-col gap-4">
+            <label className="block">
+              <span className="font-poppins text-[14px] font-bold uppercase text-[#7c6d63]">
+                Reason <span className="normal-case tracking-normal text-[#c5b9b1]">(optional)</span>
+              </span>
+              <textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="e.g. Maintenance, Private event"
+                rows={5}
+                className="mt-2 w-full resize-none border border-[#e7d1c8] bg-white px-4 py-3 font-poppins text-[14px] text-gray-800 outline-none transition placeholder:text-[#c5b9b1] focus:border-[#8B1A1A]"
+              />
+            </label>
 
-          <label className="block sm:col-span-2 lg:col-span-1">
-            <span className="font-poppins text-[14px] font-bold uppercase  text-[#7c6d63]">
-              Reason <span className="normal-case tracking-normal text-[#c5b9b1]">(optional)</span>
-            </span>
-            <input
-              type="text"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              placeholder="e.g. Maintenance, Private event"
-              className="mt-2 h-11 w-full border border-[#e7d1c8] bg-white px-4 font-poppins text-[14px] text-gray-800 outline-none transition placeholder:text-[#c5b9b1] focus:border-[#8B1A1A]"
-            />
-          </label>
-
-          <div className="flex flex-col justify-end gap-1">
-            {datesToBlock.length > 1 && (
-              <p className="font-poppins text-xs text-[#C9A84C]">
-                Blocks {datesToBlock.length} dates
-              </p>
-            )}
-            <button
-              onClick={handleAdd}
-              disabled={!fromDate || adding}
-              className="flex h-11 items-center justify-center gap-2 rounded-sm bg-[#8B1A1A] px-6 font-poppins text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-[#6f1515] disabled:opacity-50"
-            >
-              {adding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-              {adding ? "Blocking…" : "Block"}
-            </button>
+            <div className="flex flex-col gap-1">
+              {datesToBlock.length > 1 && (
+                <p className="font-poppins text-xs text-[#C9A84C]">
+                  Blocks {datesToBlock.length} dates
+                </p>
+              )}
+              <button
+                onClick={handleAdd}
+                disabled={!fromDate || adding}
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-sm bg-[#8B1A1A] px-6 font-poppins text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-[#6f1515] disabled:opacity-50"
+              >
+                {adding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                {adding ? "Blocking…" : "Block"}
+              </button>
+            </div>
           </div>
         </div>
         {addError && <p className="mt-2 font-poppins text-[14px] text-red-600">{addError}</p>}

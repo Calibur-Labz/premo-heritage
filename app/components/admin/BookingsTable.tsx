@@ -145,8 +145,72 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
         </button>
       </div>
 
-      {/* ── Table ── */}
-      <div className="overflow-x-auto rounded-sm border border-[#eee4da]">
+      {/* ── Mobile cards (< md) ── */}
+      <div className="md:hidden space-y-3">
+        {bookings.map((b) => (
+          <div key={b.id} className="rounded-sm border border-[#eee4da] bg-white p-4">
+            {/* Name + status */}
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="font-poppins text-[15px] font-semibold text-[#2f2520]">{b.guestName}</p>
+                <p className="font-poppins text-xs text-[#9c9188]">
+                  {b.createdAt?.toDate().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+                </p>
+              </div>
+              <span className={`inline-block shrink-0 rounded-full border px-3 py-0.5 font-poppins text-[12px] capitalize ${STATUS_STYLES[b.status]}`}>
+                {b.status}
+              </span>
+            </div>
+
+            {/* Dates */}
+            <div className="mt-3 flex items-center gap-2 font-poppins text-[14px] text-[#433227]">
+              <span>{b.checkIn}</span>
+              <span className="text-[#9c9188]">→</span>
+              <span>{b.checkOut}</span>
+              <span className="ml-auto font-poppins text-xs text-[#9c9188]">{b.nights} night{b.nights !== 1 ? "s" : ""}</span>
+            </div>
+
+            {/* Contact */}
+            <div className="mt-2 flex flex-col gap-0.5">
+              <a href={`tel:${b.guestPhone}`} className="font-poppins text-[14px] text-[#8B1A1A] hover:underline">{b.guestPhone}</a>
+              <a href={`mailto:${b.guestEmail}`} className="font-poppins text-xs text-[#9c9188] hover:underline">{b.guestEmail}</a>
+            </div>
+
+            {/* Actions */}
+            <div className="mt-3 flex items-center gap-2 border-t border-[#f5f0e8] pt-3">
+              <select
+                value={b.status}
+                title="Update booking status"
+                aria-label="Update booking status"
+                disabled={updating === b.id}
+                onChange={(e) => changeStatus(b.id, e.target.value as Booking["status"])}
+                className="flex-1 rounded border border-[#e7d1c8] bg-white px-2 py-1.5 font-poppins text-[14px] text-[#433227] outline-none transition focus:border-[#8B1A1A] disabled:opacity-50"
+              >
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <button
+                onClick={() => openEdit(b)}
+                title="Edit booking"
+                className="flex h-8 w-8 items-center justify-center rounded border border-[#e7d1c8] bg-white text-[#7c6d63] transition hover:border-[#8B1A1A] hover:text-[#8B1A1A]"
+              >
+                <Pencil className="h-3.5 w-3.5" />
+              </button>
+              <button
+                onClick={() => openDelete(b)}
+                title="Delete booking"
+                className="flex h-8 w-8 items-center justify-center rounded border border-[#e7d1c8] bg-white text-[#7c6d63] transition hover:border-red-400 hover:text-red-600"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Desktop table (≥ md) ── */}
+      <div className="hidden md:block overflow-x-auto rounded-sm border border-[#eee4da]">
         <table className="w-full min-w-[760px] text-left">
           <thead className="border-b border-[#eee4da] bg-[#fbfaf7]">
             <tr>
@@ -215,7 +279,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
                       onChange={(e) =>
                         changeStatus(b.id, e.target.value as Booking["status"])
                       }
-                      className="border border-[#e7d1c8] bg-white px-2 py-1.5 font-poppins text-[14px] text-[#433227] outline-none transition focus:border-[#8B1A1A] disabled:opacity-50 rounded border"
+                      className="rounded border border-[#e7d1c8] bg-white px-2 py-1.5 font-poppins text-[14px] text-[#433227] outline-none transition focus:border-[#8B1A1A] disabled:opacity-50"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
@@ -247,8 +311,8 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
 
       {/* ── Edit Modal ── */}
       {editingBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-lg rounded-xl bg-white shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
+          <div className="w-full max-w-lg rounded-xl bg-white shadow-2xl max-h-[90vh] flex flex-col">
             {/* Modal header */}
             <div className="flex items-center justify-between border-b border-[#eee4da] px-6 py-4">
               <h2 className="font-primary text-xl font-bold text-[#2f2520]">
@@ -266,7 +330,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
             </div>
 
             {/* Modal body */}
-            <div className="space-y-4 px-6 py-5">
+            <div className="space-y-4 overflow-y-auto px-6 py-5">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label
