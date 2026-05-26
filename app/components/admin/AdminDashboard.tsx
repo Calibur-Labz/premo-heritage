@@ -51,22 +51,22 @@ export default function AdminDashboard() {
               Hi, Preminda!
             </span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="font-poppins text-[14px] text-[#9c9188]">{user?.email}</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:block max-w-[200px] truncate font-poppins text-[14px] text-[#9c9188]">{user?.email}</span>
             <button
               onClick={handleLogout}
               className="flex items-center gap-1.5 font-poppins text-[14px] text-[#8B1A1A] hover:underline"
             >
               <LogOut className="h-3.5 w-3.5" />
-              Sign out
+              <span>Sign out</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         {/* Stats row */}
-        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="mb-8 grid grid-cols-3 gap-3 sm:gap-4">
           <StatCard label="Total Bookings" value={bookings.length} />
           <StatCard label="Pending" value={pendingCount} highlight={pendingCount > 0} />
           <StatCard label="Blocked Dates" value={blockedDates.length} />
@@ -109,9 +109,9 @@ export default function AdminDashboard() {
 
 function StatCard({ label, value, highlight }: { label: string; value: number; highlight?: boolean }) {
   return (
-    <div className="rounded-sm border border-[#eee4da] bg-white p-5 shadow-[0_2px_10px_rgba(61,38,20,0.04)]">
-      <p className="font-poppins text-[14px] uppercase tracking-widest text-[#9c9188]">{label}</p>
-      <p className={`font-poppins mt-2 text-3xl font-black ${highlight ? "text-[#8B1A1A]" : "text-[#2f2520]"}`}>
+    <div className="rounded-sm border border-[#eee4da] bg-white p-3 shadow-[0_2px_10px_rgba(61,38,20,0.04)] sm:p-5">
+      <p className="font-poppins text-[10px] uppercase tracking-widest text-[#9c9188] sm:text-[13px]">{label}</p>
+      <p className={`font-poppins mt-1 text-2xl font-black sm:mt-2 sm:text-4xl ${highlight ? "text-[#8B1A1A]" : "text-[#2f2520]"}`}>
         {value}
       </p>
     </div>

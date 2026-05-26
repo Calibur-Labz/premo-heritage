@@ -24,7 +24,7 @@ export default function heroSection() {
 
         {/* Mobile Image */}
         <Image
-          src="/hero/mobile/homePageMob.jpeg"
+          src="/hero/mobile/homePageMob.png"
           alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
@@ -33,7 +33,7 @@ export default function heroSection() {
       </motion.div>
 
       {/* Increased Overlay for better contrast */}
-      <div className="absolute inset-0 bg-black/65" />
+      <div className="absolute inset-0 bg-black/55" />
 
       {/* Hero Content */}
       <div className="relative z-10 flex flex-1 items-center justify-center px-5 pb-20 pt-16 text-center sm:pt-24 md:px-10 md:pt-28">

@@ -4,11 +4,13 @@ export default function HeritageSection() {
       <section className="bg-[#f5f5f5] py-12 px-5 md:py-20 md:px-12 lg:px-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           
-            <img
-              src="/home/lipa.png"
-              alt="Heritage cooking"
-              className="h-[220px] sm:h-[280px] md:h-auto w-full md:w-[85%] mx-auto object-cover rounded-[10px]"
-            />
+            <div className="h-[340px] sm:h-[420px] md:h-auto w-full md:w-[85%] mx-auto rounded-[10px] overflow-hidden">
+              <img
+                src="/home/lipa.png"
+                alt="Heritage cooking"
+                className="w-full h-full object-cover"
+              />
+            </div>
 
           <div>
             <p className="font-secondary text-sm tracking-[0.3em] text-[#C9A84C] uppercase mb-4">
