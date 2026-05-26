@@ -38,58 +38,67 @@ interface TestimonialCardProps {
 
 const testimonials: Testimonial[] = [
   {
-    id: "sarah-1",
+    id: "Buddhima-1",
     quote:
-      "An authentic experience like no other. The traditional cooking and warm hospitality made my stay unforgettable. Every detail reflects true Sri Lankan heritage.",
-    name: "Sarah Williams",
-    location: "United Kingdom",
-    avatar: "/home/test.png",
-    initials: "SW",
+      "Even as a Sri Lankan, staying at Premo Heritage felt truly special. The villa beautifully preserves our culture and traditions while offering modern comfort. The peaceful atmosphere and warm hospitality made it a perfect family getaway.",
+    name: "Buddhima Vilochana",
+    location: "Galle, Sri Lanka",
+    avatar: "/home/stories/buddhima.png",
+    initials: "BV",
   },
   {
-    id: "michael-1",
+    id: "olivia-1",
     quote:
-      "The villa is a masterpiece of colonial architecture. We loved the open courtyards, hand-carved details, and the connection to nature. A true sanctuary.",
-    name: "Michael Chen",
-    location: "Singapore",
-    avatar: "/home/test.png",
-    initials: "MC",
+      "Premo Heritage exceeded every expectation. The villa blends timeless Sri Lankan heritage with modern comfort beautifully. Waking up to the peaceful garden views and enjoying traditional breakfasts was unforgettable.",
+    name: "Olivia Bennett",
+    location: "London, United Kingdom",
+    avatar: "/home/stories/olivia.png",
+    initials: "OB",
   },
   {
-    id: "isabella-1",
+    id: "ethan-1",
     quote:
-      "From the wood-fired meals to the Ayurvedic wellness sessions, every moment was magical. This is heritage tourism at its finest. We'll definitely return.",
-    name: "Isabella Martinez",
-    location: "Spain",
-    avatar: "/home/test.png",
-    initials: "IM",
+      "One of the most relaxing stays we've ever had. The architecture, antique interiors, and calm atmosphere made us feel like we stepped into another era. The hospitality was exceptional from start to finish.",
+    name: "Ethan Mitchell",
+    location: "Melbourne, Australia",
+    avatar: "/home/stories/ethan.png",
+    initials: "EM",
   },
   {
-    id: "sarah-2",
+    id: "camila-1",
     quote:
-      "An authentic experience like no other. The traditional cooking and warm hospitality made my stay unforgettable. Every detail reflects true Sri Lankan heritage.",
-    name: "Sarah Williams",
-    location: "United Kingdom",
-    avatar: "/home/test.png",
-    initials: "SW",
+      "A hidden gem in Sri Lanka. Every corner of Premo Heritage tells a story — from the handcrafted wooden details to the beautiful courtyard. The staff made us feel completely at home.",
+    name: "Camila Fernández",
+    location: "Barcelona, Spain",
+    avatar: "/home/stories/camila.png",
+    initials: "CF",
   },
   {
-    id: "michael-2",
+    id: "noah-1",
     quote:
-      "The villa is a masterpiece of colonial architecture. We loved the open courtyards, hand-carved details, and the connection to nature. A true sanctuary.",
-    name: "Michael Chen",
-    location: "Singapore",
-    avatar: "/home/test.png",
-    initials: "MC",
+      "The perfect balance of luxury and cultural charm. We especially loved the authentic Sri Lankan cuisine and peaceful evenings by the garden. Highly recommended for couples and families alike.",
+    name: "Noah Richardson",
+    location: "Toronto, Canada",
+    avatar: "/home/stories/noah.png",
+    initials: "NR",
   },
   {
-    id: "isabella-2",
+    id: "hannah-1",
     quote:
-      "From the wood-fired meals to the Ayurvedic wellness sessions, every moment was magical. This is heritage tourism at its finest. We'll definitely return.",
-    name: "Isabella Martinez",
-    location: "Spain",
-    avatar: "/home/test.png",
-    initials: "IM",
+      "Premo Heritage gave us a truly authentic experience. The villa is beautifully maintained, spotless, and incredibly serene. It felt more personal and memorable than any hotel we've stayed at.",
+    name: "Hannah Müller",
+    location: "Munich, Germany",
+    avatar: "/home/stories/hannah.png",
+    initials: "HM",
+  },
+  {
+    id: "leo-1",
+    quote:
+      "Absolutely stunning property with warm and attentive hosts. The traditional design, natural surroundings, and relaxing atmosphere made this the highlight of our Sri Lanka trip.",
+    name: "Léo Dubois",
+    location: "Paris, France",
+    avatar: "/home/stories/leo.png",
+    initials: "LD",
   },
 ];
 
@@ -160,17 +169,15 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
         initials={testimonial.initials}
       />
 
-      <blockquote className="mb-6 flex-1 text-left font-primary text-[15px] font-semibold italic leading-6 text-gray-800 sm:mb-8 sm:text-[16px] sm:leading-7 md:text-[17px]">
+      <blockquote className="flex-1 text-left font-primary text-[15px] font-semibold italic leading-6 text-gray-800 sm:mb-8 sm:text-[16px] sm:leading-7 md:text-[17px]">
         &ldquo;{testimonial.quote}&rdquo;
       </blockquote>
 
       <footer className="mt-auto text-center">
-        <p className="text-sm font-semibold leading-tight text-gray-800">
+        <p className="text-[16px] font-semibold leading-tight text-gray-800">
           {testimonial.name}
         </p>
-        <p className="mt-1 text-xs text-[#C9A84C]">
-          {testimonial.location}
-        </p>
+        <p className="mt-1 text-[13px] text-[#C9A84C]">{testimonial.location}</p>
       </footer>
     </article>
   );
@@ -247,13 +254,13 @@ export default function GuestStoriesSection() {
         </Slider>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-2">
         <button
           type="button"
           onClick={() => setIsReviewsOpen(true)}
           className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515] focus:outline-none focus:ring-2 focus:ring-[#C9A84C] focus:ring-offset-2 focus:ring-offset-[#FAF6EF] sm:w-auto"
           aria-haspopup="dialog"
-          aria-expanded={isReviewsOpen}
+          //aria-expanded={isReviewsOpen}
         >
           <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
 
@@ -265,7 +272,7 @@ export default function GuestStoriesSection() {
 
       {isReviewsOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4 py-6 backdrop-blur-sm sm:px-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 px-4 py-6 backdrop-blur-sm sm:px-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="guest-reviews-popup-heading"

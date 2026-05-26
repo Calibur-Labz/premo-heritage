@@ -33,7 +33,7 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="absolute inset-0 bg-black/65" />
 
       {/* Decorative subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
