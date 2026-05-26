@@ -4,9 +4,11 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { Settings } from "react-slick";
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import PopupReviews from "./popupReviews";
 
 const Slider = dynamic(() => import("react-slick"), {
   ssr: false,
@@ -194,6 +196,28 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
    ============================================================ */
 export default function GuestStoriesSection() {
   const slidesToShow = useSlidesToShow();
+  const [isReviewsOpen, setIsReviewsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isReviewsOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsReviewsOpen(false);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isReviewsOpen]);
 
   // Build settings dynamically based on actual window width
   const sliderSettings: Settings = {
@@ -240,6 +264,53 @@ export default function GuestStoriesSection() {
           ))}
         </Slider>
       </div>
+
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={() => setIsReviewsOpen(true)}
+          className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515] focus:outline-none focus:ring-2 focus:ring-[#C9A84C] focus:ring-offset-2 focus:ring-offset-[#FAF6EF] sm:w-auto"
+          aria-haspopup="dialog"
+          aria-expanded={isReviewsOpen}
+        >
+          <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
+
+          <span className="relative z-10 flex items-center gap-3">
+            More Reviews
+          </span>
+        </button>
+      </div>
+
+      {isReviewsOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4 py-6 backdrop-blur-sm sm:px-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="guest-reviews-popup-heading"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsReviewsOpen(false);
+            }
+          }}
+        >
+          <div className="relative max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-2xl border border-[#ede8df] bg-white shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setIsReviewsOpen(false)}
+              className="group absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] text-white shadow-sm transition-all duration-500 hover:bg-[#6f1515] focus:outline-none focus:ring-2 focus:ring-[#C9A84C] focus:ring-offset-2 focus:ring-offset-white"
+              aria-label="Close reviews popup"
+            >
+              <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
+              <X
+                aria-hidden="true"
+                className="relative z-10 h-5 w-5 transition-transform duration-300"
+              />
+            </button>
+
+            <PopupReviews variant="modal" />
+          </div>
+        </div>
+      )}
 
       <style jsx global>{`
         .testimonial-slider .slick-slider {
