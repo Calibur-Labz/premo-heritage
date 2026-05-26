@@ -60,7 +60,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
     const start = day < checkIn ? day : checkIn;
     const end = day < checkIn ? checkIn : day;
 
-    // Reject range if any blocked/past date falls within it
     let cur = new Date(start);
     cur.setDate(cur.getDate() + 1);
     while (cur < end) {
@@ -79,7 +78,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
     return day > checkIn && day < checkOut;
   }
 
-  // Build calendar grid
   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const cells: (Date | null)[] = [
@@ -91,7 +89,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
   return (
     <div className="w-full max-w-xl select-none rounded-2xl border border-[#eee4da]/60 bg-white p-6 shadow-[0_8px_30px_rgb(61,38,20,0.04)] backdrop-blur-sm sm:p-7">
       
-      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <h2 className="font-primary text-xl font-bold tracking-tight text-[#2f2520]">
           {MONTHS[viewMonth]} <span className="font-medium text-[#9c9188]">{viewYear}</span>
@@ -117,7 +114,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
         </div>
       </div>
 
-      {/* Day-of-week labels */}
       <div className="mb-2 grid grid-cols-7 text-center">
         {DAYS.map((d) => (
           <div key={d} className="py-2 font-secondary text-xs font-bold uppercase tracking-widest text-[#9c9188]">
@@ -126,7 +122,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
         ))}
       </div>
 
-      {/* Date grid */}
       <div className="grid grid-cols-7 gap-y-5 isolation-auto">
         {cells.map((day, idx) => {
           if (!day) return <div key={`empty-${idx}`} className="my-0.5 h-10 border border-transparent" />;
@@ -141,17 +136,14 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
           const inRange = isInRange(day);
           const isToday = isSameDay(day, today);
 
-          // Range block wrapping styles
           let cellClass = "relative h-10 flex items-center justify-center my-0.5 ";
           if (inRange) cellClass += "bg-[#f5e8e8]";
           if (isStart && checkOut) cellClass += " bg-[#f5e8e8] rounded-l-xl";
           if (isEnd && checkIn) cellClass += " bg-[#f5e8e8] rounded-r-xl";
 
-          // Core interactive button styles
           let dayClass = "relative flex h-12 w-12 items-center justify-center font-secondary text-sm font-semibold transition-all duration-200 z-10 rounded-xl border border-[#eee4da]/80 ";
 
           if (disabled) {
-            // INCREASED OPACITY: Changed to dark brown base with full opacity, but used line-through and softer borders to denote availability.
             dayClass += "cursor-not-allowed text-[#433227]/40 line-through rounded-none border-[#eee4da]/20";
           } else if (isStart || isEnd) {
             dayClass += "cursor-pointer bg-[#8B1A1A] border-[#8B1A1A] font-bold text-white shadow-md shadow-[#8B1A1A]/20 scale-105";
@@ -160,7 +152,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
           } else if (isToday) {
             dayClass += "cursor-pointer text-[#2f2520] font-extrabold ring-2 ring-[#C9A84C] ring-offset-2 border-transparent";
           } else {
-            // INCREASED OPACITY: Changed base text to a dark solid tone (#2f2520) instead of semi-muted brown
             dayClass += "cursor-pointer text-[#2f2520] hover:border-[#eee4da]/80 hover:bg-[#f5f0e8] active:scale-95";
           }
 
@@ -180,7 +171,6 @@ export default function BookingCalendar({ blockedDates, checkIn, checkOut, onCha
         })}
       </div>
 
-      {/* Legend */}
       <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#eee4da]/60 pt-5">
         <LegendItem color="bg-[#8B1A1A] rounded-md" label="Selected" />
         <LegendItem color="bg-[#f5e8e8] border border-[#e7c8c8]/60 rounded-md" label="In range" />

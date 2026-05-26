@@ -31,7 +31,6 @@ export default function AdminLoginPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#fff] px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="mb-10 flex justify-center">
           <Image src="/logo2.png" alt="Premo Heritage" width={120} height={60} className="object-contain" />
         </div>

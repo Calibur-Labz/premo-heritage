@@ -15,9 +15,6 @@ const Slider = dynamic(() => import("react-slick"), {
   ),
 });
 
-/* ============================================================
-   TYPES
-   ============================================================ */
 interface Testimonial {
   id: string;
   quote: string;
@@ -37,9 +34,6 @@ interface TestimonialCardProps {
   testimonial: Testimonial;
 }
 
-/* ============================================================
-   DATA
-   ============================================================ */
 const testimonials: Testimonial[] = [
   {
     id: "sarah-1",
@@ -97,9 +91,6 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-/* ============================================================
-   HOOK: Get current screen size reactively
-   ============================================================ */
 function useSlidesToShow(): number {
   const [slides, setSlides] = useState(3);
 
@@ -123,9 +114,6 @@ function useSlidesToShow(): number {
   return slides;
 }
 
-/* ============================================================
-   AVATAR COMPONENT
-   ============================================================ */
 function Avatar({ avatar, name, initials }: AvatarProps) {
   const [hasError, setHasError] = useState(false);
 
@@ -150,9 +138,6 @@ function Avatar({ avatar, name, initials }: AvatarProps) {
   );
 }
 
-/* ============================================================
-   TESTIMONIAL CARD
-   ============================================================ */
 function TestimonialCard({ testimonial }: TestimonialCardProps) {
   return (
     <article className="relative mx-auto flex h-full w-full max-w-md flex-col rounded-2xl border border-[#ede8df] bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-md sm:p-7 md:p-8">
@@ -189,13 +174,8 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
   );
 }
 
-/* ============================================================
-   MAIN SECTION
-   ============================================================ */
 export default function GuestStoriesSection() {
   const slidesToShow = useSlidesToShow();
-
-  // Build settings dynamically based on actual window width
   const sliderSettings: Settings = {
     dots: true,
     infinite: true,
