@@ -39,7 +39,7 @@ const travelOptions = [
 
 export default function TravelGuideSection() {
   return (
-    <section className="bg-white py-20 lg:py-24">
+    <section className="bg-white py-12 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-secondary text-sm uppercase tracking-[0.3em] text-[#C9A84C]">

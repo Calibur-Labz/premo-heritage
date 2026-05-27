@@ -16,7 +16,7 @@ const villaDirectionsUrl =
 
 export default function VillaLocationSection() {
   return (
-    <section className="bg-[#f1eee9] px-6 py-14 sm:py-16 md:px-10 lg:px-0 lg:py-24">
+    <section className="bg-[#f1eee9] px-6 py-12 sm:py-12 md:px-10 lg:px-0 lg:py-24">
       <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[0.62fr_1.38fr] lg:gap-20">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           <div className="mb-4 flex h-9 w-9 items-center justify-center text-primary md:mb-5">
