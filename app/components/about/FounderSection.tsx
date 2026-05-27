@@ -6,13 +6,13 @@ import Paragraph from "./Paragraph";
 
 export default function FounderSection() {
   return (
-    <section className="px-6 py-24 md:px-10">
+    <section className="bg-[#f8f6f2] px-6 py-12 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-4">
         <div className="flex justify-center">
           <img
             src="/about/founder.jpeg"
             alt="Preminda Kalansooriya — Chef Premo, Founder of Premo Heritage Villa"
-            className="h-[575px] w-full object-cover rounded-xl md:h-[625px]"
+            className="h-[425px] w-full object-cover rounded-xl md:h-[625px]"
           />
         </div>
 

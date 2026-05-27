@@ -25,7 +25,7 @@ const galleryImages = [
 
 export default function HeritageSection() {
   return (
-    <section className="px-6 py-24 md:px-10">
+    <section className="px-6 py-12 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center lg:gap-8">
 
         <div className="order-1 max-w-2xl lg:order-1 lg:pr-20">

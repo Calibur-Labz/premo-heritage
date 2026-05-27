@@ -79,7 +79,7 @@ export default function ContactFormSection() {
   }
 
   return (
-    <section className="bg-[#fbfaf7] py-20 lg:py-24">
+    <section className="bg-[#fbfaf7] py-12 lg:py-24">
       <div className="mx-auto grid max-w-7xl overflow-hidden border border-[#eee4da] bg-white shadow-[0_12px_35px_rgba(61,38,20,0.05)] lg:grid-cols-[0.95fr_1.05fr]">
         <div className="px-8 py-12 sm:px-12 lg:px-16">
           <h2 className="font-primary text-3xl font-black text-primary md:text-4xl">

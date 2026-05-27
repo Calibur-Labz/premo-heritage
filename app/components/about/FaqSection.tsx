@@ -40,7 +40,7 @@ const faqItems = [
 
 export default function FaqSection() {
   return (
-    <section className="bg-[#fffdf9] px-6 py-24 md:px-10">
+    <section className="px-6 py-12 md:px-10">
       <div className="mx-auto max-w-7xl">
 
         <div className="mx-auto max-w-3xl text-center">
