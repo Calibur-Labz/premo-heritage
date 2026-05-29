@@ -19,8 +19,8 @@ const destinations = [
     location: "https://maps.app.goo.gl/TPAAF4NoEYUGkcjv5",
     images: [
       "/destinations/raju3.png",
-      "/destinations/raju2.png",
-      "/destinations/raju.png",
+      "/destinations/raju2.jpg",
+      "/destinations/raju.jpg",
     ],
   },
   {
