@@ -16,6 +16,10 @@ function nightsBetween(a: Date, b: Date) {
   return Math.round((b.getTime() - a.getTime()) / 86400000);
 }
 
+function toLocalDateStr(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 // Validation Helpers
 const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const validatePhone = (phone: string) => /^\+?[0-9\s\-]{7,15}$/.test(phone);
@@ -78,8 +82,8 @@ export default function BookingSection() {
         guestName: name.trim(),
         guestPhone: phone.trim(),
         guestEmail: email.trim(),
-        checkIn: checkIn.toISOString().split("T")[0],
-        checkOut: checkOut.toISOString().split("T")[0],
+        checkIn: toLocalDateStr(checkIn),
+        checkOut: toLocalDateStr(checkOut),
         nights,
         whatsappMessage: message,
       });

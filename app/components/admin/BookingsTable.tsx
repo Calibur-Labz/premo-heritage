@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import type { Booking } from "../../lib/firestore";
+import { useState, useEffect } from "react";
+import type { Booking, BlockedDate } from "../../lib/firestore";
 import {
   updateBookingStatus,
   updateBooking,
   deleteBooking,
+  addBlockedDate,
+  removeBlockedDate,
 } from "../../lib/firestore";
-import { RefreshCw, Pencil, Trash2, Loader2, X } from "lucide-react";
+import { RefreshCw, Pencil, Trash2, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
+
+const PAGE_SIZE = 10;
 
 const STATUS_STYLES: Record<Booking["status"], string> = {
   pending: "bg-amber-50 text-amber-700 border-amber-200",
@@ -18,6 +22,11 @@ const STATUS_STYLES: Record<Booking["status"], string> = {
 interface Props {
   bookings: Booking[];
   onRefresh: () => void;
+  onBookingChanged: (updated: Booking) => void;
+  onBookingDeleted: (id: string) => void;
+  onBlockedDatesRemoved: (ids: string[]) => void;
+  adminEmail: string;
+  blockedDates: BlockedDate[];
 }
 
 function calcNights(checkIn: string, checkOut: string): number {
@@ -25,7 +34,30 @@ function calcNights(checkIn: string, checkOut: string): number {
   return Math.max(0, Math.round(ms / 86_400_000));
 }
 
-export default function BookingsTable({ bookings, onRefresh }: Props) {
+function eachDayBetween(from: string, to: string): string[] {
+  const dates: string[] = [];
+  const [fy, fm, fd] = from.split("-").map(Number);
+  const [ty, tm, td] = to.split("-").map(Number);
+  const cur = new Date(fy, fm - 1, fd);
+  const end = new Date(ty, tm - 1, td);
+  while (cur <= end) {
+    dates.push(`${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`);
+    cur.setDate(cur.getDate() + 1);
+  }
+  return dates;
+}
+
+function getPageNumbers(current: number, total: number): (number | "…")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | "…")[] = [1];
+  if (current > 3) pages.push("…");
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i);
+  if (current < total - 2) pages.push("…");
+  pages.push(total);
+  return pages;
+}
+
+export default function BookingsTable({ bookings, onRefresh, onBookingChanged, onBookingDeleted, onBlockedDatesRemoved, adminEmail, blockedDates }: Props) {
   const [updating, setUpdating] = useState<string | null>(null);
   const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
   const [editForm, setEditForm] = useState<Partial<Booking>>({});
@@ -36,11 +68,41 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
 
+  const [page, setPage] = useState(1);
+  useEffect(() => { setPage(1); }, [bookings.length]);
+
+  const totalPages = Math.ceil(bookings.length / PAGE_SIZE);
+  const safePage = Math.min(page, Math.max(1, totalPages));
+  const paged = bookings.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const rangeStart = bookings.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(safePage * PAGE_SIZE, bookings.length);
+
+  const blockedDateSet = new Set(blockedDates.map((d) => d.date));
+
+  function getDatesToUnblock(checkIn: string, checkOut: string): BlockedDate[] {
+    const range = new Set(eachDayBetween(checkIn, checkOut));
+    return blockedDates.filter((bd) => range.has(bd.date) && bd.reason.startsWith("Booking: "));
+  }
+
   async function changeStatus(id: string, status: Booking["status"]) {
     setUpdating(id);
     try {
       await updateBookingStatus(id, status);
-      onRefresh();
+      const booking = bookings.find((b) => b.id === id);
+      if (booking) {
+        onBookingChanged({ ...booking, status });
+        if (status === "confirmed" && booking.status !== "confirmed") {
+          const days = eachDayBetween(booking.checkIn, booking.checkOut).filter((d) => !blockedDateSet.has(d));
+          await Promise.all(days.map((d) => addBlockedDate(d, `Booking: ${booking.guestName}`, adminEmail)));
+          onRefresh();
+        } else if (booking.status === "confirmed" && status !== "confirmed") {
+          const toRemove = getDatesToUnblock(booking.checkIn, booking.checkOut);
+          if (toRemove.length > 0) {
+            await Promise.all(toRemove.map((bd) => removeBlockedDate(bd.id)));
+            onBlockedDatesRemoved(toRemove.map((bd) => bd.id));
+          }
+        }
+      }
     } finally {
       setUpdating(null);
     }
@@ -77,7 +139,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
     setEditLoading(true);
     setEditError("");
     try {
-      await updateBooking(editingBooking.id, {
+      const updates = {
         guestName: editForm.guestName,
         guestEmail: editForm.guestEmail,
         guestPhone: editForm.guestPhone,
@@ -85,9 +147,31 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
         checkOut: editForm.checkOut,
         nights: editForm.nights,
         status: editForm.status as Booking["status"],
-      });
+      };
+      await updateBooking(editingBooking.id, updates);
+      onBookingChanged({ ...editingBooking, ...updates } as Booking);
+      const wasConfirmed = editingBooking.status === "confirmed";
+      const nowConfirmed = editForm.status === "confirmed";
+      if (!wasConfirmed && nowConfirmed) {
+        const cin = editForm.checkIn ?? editingBooking.checkIn;
+        const cout = editForm.checkOut ?? editingBooking.checkOut;
+        const days = eachDayBetween(cin, cout).filter((d) => !blockedDateSet.has(d));
+        await Promise.all(
+          days.map((d) =>
+            addBlockedDate(d, `Booking: ${editForm.guestName ?? editingBooking.guestName}`, adminEmail),
+          ),
+        );
+        onRefresh();
+      } else if (wasConfirmed && !nowConfirmed) {
+        const cin = editForm.checkIn ?? editingBooking.checkIn;
+        const cout = editForm.checkOut ?? editingBooking.checkOut;
+        const toRemove = getDatesToUnblock(cin, cout);
+        if (toRemove.length > 0) {
+          await Promise.all(toRemove.map((bd) => removeBlockedDate(bd.id)));
+          onBlockedDatesRemoved(toRemove.map((bd) => bd.id));
+        }
+      }
       setEditingBooking(null);
-      onRefresh();
     } catch {
       setEditError("Failed to save changes. Please try again.");
     } finally {
@@ -106,8 +190,8 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
     setDeleteError("");
     try {
       await deleteBooking(deletingBooking.id);
+      onBookingDeleted(deletingBooking.id);
       setDeletingBooking(null);
-      onRefresh();
     } catch {
       setDeleteError("Failed to delete booking. Please try again.");
     } finally {
@@ -130,7 +214,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <p className="font-poppins text-[14px] text-[#7c6d63]">
-          {bookings.length} booking{bookings.length !== 1 ? "s" : ""} found
+          {bookings.length === 0 ? "No bookings" : `Showing ${rangeStart}–${rangeEnd} of ${bookings.length} booking${bookings.length !== 1 ? "s" : ""}`}
         </p>
         <button
           onClick={onRefresh}
@@ -142,7 +226,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
       </div>
 
       <div className="md:hidden space-y-3">
-        {bookings.map((b) => (
+        {paged.map((b) => (
           <div key={b.id} className="rounded-sm border border-[#eee4da] bg-white p-4">
             <div className="flex items-start justify-between gap-2">
               <div>
@@ -217,7 +301,7 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#f5f0e8]">
-            {bookings.map((b) => (
+            {paged.map((b) => (
               <tr key={b.id} className="bg-white hover:bg-[#fdfcfa]">
                 <td className="px-4 py-4">
                   <p className="font-poppins text-[15px] font-semibold text-[#2f2520]">
@@ -298,6 +382,46 @@ export default function BookingsTable({ bookings, onRefresh }: Props) {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <div className="mt-5 flex items-center justify-center gap-1.5">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={safePage === 1}
+            aria-label="Previous page"
+            className="flex h-8 w-8 items-center justify-center rounded border border-[#eee4da] bg-white font-poppins text-[#7c6d63] transition hover:border-[#8B1A1A] hover:text-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+
+          {getPageNumbers(safePage, totalPages).map((p, i) =>
+            p === "…" ? (
+              <span key={`ellipsis-${i}`} className="px-1 font-poppins text-[13px] text-[#9c9188]">…</span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`flex h-8 min-w-[2rem] items-center justify-center rounded border px-2 font-poppins text-[13px] transition ${
+                  safePage === p
+                    ? "border-[#8B1A1A] bg-[#8B1A1A] font-semibold text-white"
+                    : "border-[#eee4da] bg-white text-[#433227] hover:border-[#8B1A1A] hover:text-[#8B1A1A]"
+                }`}
+              >
+                {p}
+              </button>
+            ),
+          )}
+
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={safePage === totalPages}
+            aria-label="Next page"
+            className="flex h-8 w-8 items-center justify-center rounded border border-[#eee4da] bg-white font-poppins text-[#7c6d63] transition hover:border-[#8B1A1A] hover:text-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
 
       {editingBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
