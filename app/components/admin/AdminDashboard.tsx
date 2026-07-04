@@ -21,7 +21,6 @@ export default function AdminDashboard() {
   const [loadingData, setLoadingData] = useState(true);
 
   async function fetchData() {
-    setLoadingData(true);
     try {
       const [b, d] = await Promise.all([getBookings(), getBlockedDates()]);
       setBookings(b);
@@ -32,6 +31,18 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => { fetchData(); }, []);
+
+  function handleBookingChanged(updated: Booking) {
+    setBookings((prev) => prev.map((b) => (b.id === updated.id ? updated : b)));
+  }
+
+  function handleBookingDeleted(id: string) {
+    setBookings((prev) => prev.filter((b) => b.id !== id));
+  }
+
+  function handleBlockedDatesRemoved(ids: string[]) {
+    setBlockedDates((prev) => prev.filter((d) => !ids.includes(d.id)));
+  }
 
   async function handleLogout() {
     await logout();
@@ -90,7 +101,15 @@ export default function AdminDashboard() {
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#8B1A1A] border-t-transparent" />
           </div>
         ) : tab === "bookings" ? (
-          <BookingsTable bookings={bookings} onRefresh={fetchData} />
+          <BookingsTable
+            bookings={bookings}
+            onRefresh={fetchData}
+            onBookingChanged={handleBookingChanged}
+            onBookingDeleted={handleBookingDeleted}
+            onBlockedDatesRemoved={handleBlockedDatesRemoved}
+            adminEmail={user?.email ?? ""}
+            blockedDates={blockedDates}
+          />
         ) : (
           <BlockedDatesManager
             blockedDates={blockedDates}

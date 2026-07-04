@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { BlockedDate } from "../../lib/firestore";
 import { addBlockedDate, removeBlockedDate } from "../../lib/firestore";
-import { Trash2, Plus, Loader2, CalendarRange } from "lucide-react";
+import { Trash2, Plus, Loader2, CalendarRange, ChevronLeft, ChevronRight } from "lucide-react";
 import AdminDatePicker from "./AdminDatePicker";
 
 interface Props {
@@ -22,19 +22,22 @@ interface RangeRecord {
 
 function eachDayBetween(from: string, to: string): string[] {
   const dates: string[] = [];
-  const cur = new Date(from);
-  const end = new Date(to);
+  const [fy, fm, fd] = from.split("-").map(Number);
+  const [ty, tm, td] = to.split("-").map(Number);
+  const cur = new Date(fy, fm - 1, fd);
+  const end = new Date(ty, tm - 1, td);
   while (cur <= end) {
-    dates.push(cur.toISOString().split("T")[0]);
+    dates.push(`${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`);
     cur.setDate(cur.getDate() + 1);
   }
   return dates;
 }
 
 function isNextDay(a: string, b: string): boolean {
-  const d = new Date(a);
+  const [ay, am, ad] = a.split("-").map(Number);
+  const d = new Date(ay, am - 1, ad);
   d.setDate(d.getDate() + 1);
-  return d.toISOString().split("T")[0] === b;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}` === b;
 }
 
 function groupIntoRanges(dates: BlockedDate[]): RangeRecord[] {
@@ -63,8 +66,21 @@ function groupIntoRanges(dates: BlockedDate[]): RangeRecord[] {
   return groups;
 }
 
+const PAGE_SIZE = 10;
+
+function getPageNumbers(current: number, total: number): (number | "…")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | "…")[] = [1];
+  if (current > 3) pages.push("…");
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i);
+  if (current < total - 2) pages.push("…");
+  pages.push(total);
+  return pages;
+}
+
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-GB", {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
     day: "2-digit", month: "short", year: "numeric",
   });
 }
@@ -77,8 +93,18 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
   const [removing, setRemoving] = useState<string | null>(null);
   const [addError, setAddError] = useState("");
 
+  const [page, setPage] = useState(1);
+
   const datesToBlock = fromDate ? eachDayBetween(fromDate, toDate || fromDate) : [];
   const rangeRecords = groupIntoRanges(blockedDates);
+
+  useEffect(() => { setPage(1); }, [rangeRecords.length]);
+
+  const totalPages = Math.ceil(rangeRecords.length / PAGE_SIZE);
+  const safePage = Math.min(page, Math.max(1, totalPages));
+  const pagedRecords = rangeRecords.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const rangeStart = rangeRecords.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(safePage * PAGE_SIZE, rangeRecords.length);
 
   async function handleAdd() {
     if (!fromDate) return;
@@ -157,12 +183,19 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
       </div>
 
       <div>
-        <h3 className="mb-4 font-poppins text-lg font-bold text-[#2f2520]">
-          Blocked Periods{" "}
-          <span className="font-poppins text-[14px] font-normal text-[#9c9188]">
-            ({rangeRecords.length} record{rangeRecords.length !== 1 ? "s" : ""} · {blockedDates.length} day{blockedDates.length !== 1 ? "s" : ""} total)
-          </span>
-        </h3>
+        <div className="mb-4 flex items-baseline justify-between gap-4">
+          <h3 className="font-poppins text-lg font-bold text-[#2f2520]">
+            Blocked Periods{" "}
+            <span className="font-poppins text-[14px] font-normal text-[#9c9188]">
+              ({rangeRecords.length} record{rangeRecords.length !== 1 ? "s" : ""} · {blockedDates.length} day{blockedDates.length !== 1 ? "s" : ""} total)
+            </span>
+          </h3>
+          {totalPages > 1 && (
+            <p className="shrink-0 font-poppins text-[13px] text-[#9c9188]">
+              {rangeStart}–{rangeEnd} of {rangeRecords.length}
+            </p>
+          )}
+        </div>
 
         {rangeRecords.length === 0 ? (
           <p className="font-poppins text-[14px] text-[#c5b9b1]">No dates blocked yet.</p>
@@ -176,7 +209,7 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
             </div>
 
             <div className="divide-y divide-[#f5f0e8]">
-              {rangeRecords.map((record) => {
+              {pagedRecords.map((record) => {
                 const isRemoving = removing === record.from;
                 return (
                   <div
@@ -228,6 +261,46 @@ export default function BlockedDatesManager({ blockedDates, adminEmail, onRefres
                 );
               })}
             </div>
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="mt-5 flex items-center justify-center gap-1.5">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={safePage === 1}
+              aria-label="Previous page"
+              className="flex h-8 w-8 items-center justify-center rounded border border-[#eee4da] bg-white text-[#7c6d63] transition hover:border-[#8B1A1A] hover:text-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
+            {getPageNumbers(safePage, totalPages).map((p, i) =>
+              p === "…" ? (
+                <span key={`ellipsis-${i}`} className="px-1 font-poppins text-[13px] text-[#9c9188]">…</span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  className={`flex h-8 min-w-[2rem] items-center justify-center rounded border px-2 font-poppins text-[13px] transition ${
+                    safePage === p
+                      ? "border-[#8B1A1A] bg-[#8B1A1A] font-semibold text-white"
+                      : "border-[#eee4da] bg-white text-[#433227] hover:border-[#8B1A1A] hover:text-[#8B1A1A]"
+                  }`}
+                >
+                  {p}
+                </button>
+              ),
+            )}
+
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={safePage === totalPages}
+              aria-label="Next page"
+              className="flex h-8 w-8 items-center justify-center rounded border border-[#eee4da] bg-white text-[#7c6d63] transition hover:border-[#8B1A1A] hover:text-[#8B1A1A] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         )}
       </div>
