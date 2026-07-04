@@ -189,6 +189,13 @@ export default function BookingsTable({ bookings, onRefresh, onBookingChanged, o
     setDeleteLoading(true);
     setDeleteError("");
     try {
+      if (deletingBooking.status === "confirmed") {
+        const toRemove = getDatesToUnblock(deletingBooking.checkIn, deletingBooking.checkOut);
+        if (toRemove.length > 0) {
+          await Promise.all(toRemove.map((bd) => removeBlockedDate(bd.id)));
+          onBlockedDatesRemoved(toRemove.map((bd) => bd.id));
+        }
+      }
       await deleteBooking(deletingBooking.id);
       onBookingDeleted(deletingBooking.id);
       setDeletingBooking(null);
