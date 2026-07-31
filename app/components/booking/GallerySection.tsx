@@ -16,16 +16,13 @@ const galleryImages = [
   "/room/room7.jpeg",
   "/room/room8.jpeg",
   "/room/room9.jpeg",
-  "/room/room10.jpeg",
 ];
 
-// Banded layout — every band aligns perfectly, all share one 20px gap.
+// Banded layout — every band aligns perfectly, all share one gap.
 //   Band 1 → rooms 1-6  : landscape tiles
 //   Band 2 → rooms 7-9  : portrait tiles
-//   Band 3 → room 10    : full-width landscape banner
 const LANDSCAPE = galleryImages.slice(0, 6);
 const PORTRAIT = galleryImages.slice(6, 9);
-const BANNER = galleryImages[9];
 
 export default function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -166,14 +163,6 @@ export default function GallerySection() {
               />
             ))}
           </div>
-
-          {/* Band 3 · full-width landscape banner (room 10) */}
-          <Tile
-            src={BANNER}
-            index={9}
-            aspect="aspect-16/9 lg:aspect-[21/9]"
-            sizes="100vw"
-          />
         </div>
       </div>
 
