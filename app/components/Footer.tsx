@@ -31,7 +31,7 @@ export default function Footer() {
                   className="h-auto w-[86px] object-contain"
                 />
               </Link>
-              <h3 className="mt-5 font-primary text-[24px] font-bold text-white md:mt-8">
+              <h3 className="font-primary text-[24px] font-bold text-white">
                 Premo Heritage Villa
               </h3>
               <p className="max-w-[300px] font-secondary text-[16px] leading-8 text-white/70">
