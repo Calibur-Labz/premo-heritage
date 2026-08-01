@@ -171,24 +171,46 @@ export default function GallerySection() {
           </div>
         </div>
 
-        {/* Booking CTA — centered beneath the gallery */}
+        {/* Booking CTA — bold heritage panel beneath the gallery */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-14 flex justify-center"
+          transition={{ duration: 0.8 }}
+          className="relative mt-16 overflow-hidden rounded-2xl bg-[#7a1a1a] px-6 py-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.12)] md:px-12 md:py-12"
         >
-          <NextLink href="/booking">
-            <button className="group relative flex w-[270px] cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515]">
-              <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
+          {/* Decorative glows inside the panel */}
+          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#C9A84C]/15 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-white/5 blur-3xl" />
 
-              <span className="relative z-10 flex items-center gap-3">
-                Book Your Stay
-                <Calendar size={18} className="transition-transform duration-300" />
-              </span>
-            </button>
-          </NextLink>
+          <div className="relative mx-auto max-w-2xl">
+            <span className="inline-flex items-center gap-2 font-secondary text-[11px] uppercase tracking-[0.35em] text-[#C9A84C]">
+              <Calendar className="h-3.5 w-3.5" />
+              Reserve Your Escape
+            </span>
+
+            <h2 className="font-primary mt-3 text-2xl font-black leading-tight text-white md:text-3xl lg:text-4xl">
+              Ready to Experience It in Person?
+            </h2>
+
+            <p className="mx-auto mt-3 max-w-xl font-secondary text-sm leading-7 text-white/85">
+              Photographs only tell part of the story — reserve your suite and
+              let the heritage, warmth, and coastal calm welcome you home.
+            </p>
+
+            <div className="mt-6 flex justify-center">
+              <NextLink href="/booking">
+                <button className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-sm border border-white/40 bg-white/5 px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all duration-500 hover:bg-black/30 sm:w-auto">
+                  <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
+
+                  <span className="relative z-10 flex items-center gap-3">
+                    Book Your Stay
+                    <Calendar size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </button>
+              </NextLink>
+            </div>
+          </div>
         </motion.div>
       </div>
 
