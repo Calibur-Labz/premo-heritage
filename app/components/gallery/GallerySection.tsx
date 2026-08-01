@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import NextLink from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, ZoomIn, Camera } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ZoomIn, Camera, Calendar } from "lucide-react";
+import { BLUR_DATA_URL } from "@/app/lib/blur";
 
 // All villa images live in /public/room/
 const galleryImages = [
@@ -92,6 +94,8 @@ export default function GallerySection() {
         alt="Premo Heritage Villa"
         fill
         sizes={sizes}
+        placeholder="blur"
+        blurDataURL={BLUR_DATA_URL}
         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
       />
       {/* Dark overlay + zoom icon on hover */}
@@ -122,12 +126,14 @@ export default function GallerySection() {
             <Camera className="h-3.5 w-3.5" />
             Inside The Villa
           </span>
-          <h2 className="font-primary mt-4 text-4xl font-black text-[#2f2520] md:text-5xl lg:text-6xl">
-            Gallery
+          <h2 className="font-primary mt-4 text-4xl font-black leading-tight text-[#2f2520] md:text-5xl lg:text-6xl">
+            A Glimpse of Heritage Living
           </h2>
-          <p className="mx-auto mt-5 max-w-xl font-secondary text-sm leading-7 text-[#6b5d52]">
-            A closer look at every corner of your heritage stay — from sunlit
-            suites to the beachfront terrace.
+          <p className="mx-auto mt-5 max-w-2xl font-secondary text-sm leading-7 text-[#6b5d52] md:text-base">
+            Wander through every corner of the villa — from sunlit heritage
+            suites and hand-crafted interiors to the palm-fringed beachfront
+            terrace. Each frame captures the calm, character, and comfort that
+            await your stay.
           </p>
           <div className="mx-auto mt-6 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-[#e7d1c8]" />
@@ -164,6 +170,26 @@ export default function GallerySection() {
             ))}
           </div>
         </div>
+
+        {/* Booking CTA — centered beneath the gallery */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-14 flex justify-center"
+        >
+          <NextLink href="/booking">
+            <button className="group relative flex w-[270px] cursor-pointer items-center justify-center overflow-hidden rounded-sm bg-[#8B1A1A] px-10 py-4 font-secondary text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#6f1515]">
+              <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
+
+              <span className="relative z-10 flex items-center gap-3">
+                Book Your Stay
+                <Calendar size={18} className="transition-transform duration-300" />
+              </span>
+            </button>
+          </NextLink>
+        </motion.div>
       </div>
 
       {/* Lightbox */}
@@ -211,6 +237,8 @@ export default function GallerySection() {
                 fill
                 className="object-contain"
                 sizes="100vw"
+                placeholder="blur"
+                blurDataURL={BLUR_DATA_URL}
                 priority
               />
             </motion.div>

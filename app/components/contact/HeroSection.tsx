@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { BLUR_DATA_URL } from "@/app/lib/blur";
 
 export default function HeroSection() {
   return (
@@ -28,6 +29,9 @@ export default function HeroSection() {
           alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          sizes="100vw"
           className="hidden object-cover md:block"
         />
 
@@ -37,6 +41,9 @@ export default function HeroSection() {
           alt="Premo Heritage Villa luxury beachfront view"
           fill
           priority
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          sizes="100vw"
           className="object-cover md:hidden"
         />
       </motion.div>

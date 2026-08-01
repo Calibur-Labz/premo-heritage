@@ -2,11 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, CalendarDays, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { MessageCircle, CalendarDays, CheckCircle2, Loader2, AlertCircle, BedDouble, Users } from "lucide-react";
 import BookingCalendar from "./BookingCalendar";
 import { getBlockedDates, createPendingBooking } from "../../lib/firestore";
 
 const WHATSAPP_NUMBER = "61424306604";
+
+// Villa: 3 Bedroom · sleeps 6
+// $60 per night — reduced to $50 per night for stays longer than 7 nights.
+const STANDARD_NIGHTLY_RATE = 60;
+const LONG_STAY_NIGHTLY_RATE = 50;
+const LONG_STAY_THRESHOLD_NIGHTS = 7;
+
+function nightlyRate(nights: number) {
+  return nights > LONG_STAY_THRESHOLD_NIGHTS ? LONG_STAY_NIGHTLY_RATE : STANDARD_NIGHTLY_RATE;
+}
 
 function formatDate(d: Date) {
   return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
@@ -49,6 +59,8 @@ export default function BookingSection() {
   }, []);
 
   const nights = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
+  const rate = nightlyRate(nights);
+  const total = rate * nights;
 
   // Validation Logic
   const isNameValid = name.trim().length >= 2;
@@ -73,6 +85,8 @@ export default function BookingSection() {
       `Check-in: ${formatDate(checkIn)}`,
       `Check-out: ${formatDate(checkOut)}`,
       `Nights: ${nights}`,
+      `Rate: $${rate}/night`,
+      `Total: $${total}`,
       `Phone: ${phone.trim()}`,
       `Email: ${email.trim()}`,
     ].join("\n");
@@ -132,6 +146,53 @@ export default function BookingSection() {
             <span className="h-px w-10 bg-[#e7d1c8]" />
             <span className="h-1.5 w-1.5 rounded-full bg-[#C9A84C]" />
             <span className="h-px w-10 bg-[#e7d1c8]" />
+          </div>
+        </motion.div>
+
+        {/* Pricing */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto mb-14 max-w-2xl overflow-hidden rounded-sm border border-[#eee4da] bg-[#fbfaf7] shadow-[0_4px_20px_rgba(61,38,20,0.06)]"
+        >
+          {/* Villa summary */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-b border-[#eee4da] bg-white px-6 py-4">
+            <span className="flex items-center gap-2 font-secondary text-s font-medium text-[#7c6d63]">
+              <BedDouble className="h-8 w-8 text-[#C9A84C]" strokeWidth={1.7} /> 3 Bedroom Villa
+            </span>
+            <span className="flex items-center gap-2 font-secondary text-s font-medium text-[#7c6d63]">
+              <Users className="h-8 w-8 text-[#C9A84C]" strokeWidth={1.7} /> Sleeps 6
+            </span>
+          </div>
+
+          {/* Rates */}
+          <div className="grid grid-cols-1 divide-y divide-[#eee4da] sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+            <div className="px-6 py-6 text-center">
+              <p className="font-secondary text-[13px] uppercase tracking-[0.2em] text-[#9c9188]">
+                Nightly Rate
+              </p>
+              <p className="mt-2 font-primary text-4xl font-black text-[#2f2520]">
+                ${STANDARD_NIGHTLY_RATE}
+                <span className="ml-1 text-[20px] font-medium text-[#9c9188]">/ night</span>
+              </p>
+              <p className="mt-1 font-secondary text-s text-[#9c9188]">
+                Up to {LONG_STAY_THRESHOLD_NIGHTS} nights
+              </p>
+            </div>
+            <div className="px-6 py-6 text-center">
+              <p className="font-secondary text-[13px] uppercase tracking-[0.2em] text-[#4a7c59]">
+                Long-Stay Rate
+              </p>
+              <p className="mt-2 font-primary text-4xl font-black text-[#2f2520]">
+                ${LONG_STAY_NIGHTLY_RATE}
+                <span className="ml-1 text-[20px] font-medium text-[#9c9188]">/ night</span>
+              </p>
+              <p className="mt-1 font-secondary text-s text-[#4a7c59]">
+                Stays over {LONG_STAY_THRESHOLD_NIGHTS} nights
+              </p>
+            </div>
           </div>
         </motion.div>
 
@@ -228,6 +289,24 @@ export default function BookingSection() {
                       <p className="mt-0.5 font-secondary text-xs text-amber-700 flex items-center gap-1">
                         <AlertCircle className="h-3 w-3" /> Please select your dates on the calendar first
                       </p>
+                    )}
+
+                    {nights > 0 && (
+                      <div className="mt-3 border-t border-[#eee4da] pt-3">
+                        <div className="flex items-center justify-between font-secondary text-sm text-[#7c6d63]">
+                          <span>
+                            ${rate} × {nights} night{nights !== 1 ? "s" : ""}
+                          </span>
+                          <span className="font-primary text-lg font-bold text-[#2f2520]">
+                            ${total}
+                          </span>
+                        </div>
+                        {nights > LONG_STAY_THRESHOLD_NIGHTS && (
+                          <p className="mt-1 font-secondary text-[11px] font-medium text-[#4a7c59]">
+                            Long-stay rate applied — ${LONG_STAY_NIGHTLY_RATE}/night for stays over {LONG_STAY_THRESHOLD_NIGHTS} nights
+                          </p>
+                        )}
+                      </div>
                     )}
                   </div>
 

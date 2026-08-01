@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { BLUR_DATA_URL } from "@/app/lib/blur";
 
 export default function DestinationImage({
   images,
@@ -84,6 +85,8 @@ export default function DestinationImage({
             alt={alt}
             fill
             sizes="(max-width: 1024px) 100vw, 520px"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
             className="object-cover transition-transform duration-700"
             priority
           />

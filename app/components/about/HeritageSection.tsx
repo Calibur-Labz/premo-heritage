@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { BLUR_DATA_URL } from "@/app/lib/blur";
 import SectionHeading from "./SectionHeading";
 import Paragraph from "./Paragraph";
 
@@ -64,6 +65,8 @@ export default function HeritageSection() {
                   alt={image.alt}
                   width={900}
                   height={700}
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 1024px) 50vw, 420px"
                 />

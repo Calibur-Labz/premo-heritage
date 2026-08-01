@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { BLUR_DATA_URL } from "@/app/lib/blur";
 
 export default function HeroSection() {
   return (
@@ -17,6 +18,9 @@ export default function HeroSection() {
           alt="Luxury tropical destination at Premo Heritage Villa"
           fill
           priority
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          sizes="100vw"
           className="object-cover"
         />
       </motion.div>

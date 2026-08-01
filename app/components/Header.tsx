@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact Us' },
   { href: '/destinations', label: 'Destinations' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/booking', label: 'Book Now' },
 ]
 
