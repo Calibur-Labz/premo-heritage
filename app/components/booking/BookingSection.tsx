@@ -142,7 +142,7 @@ export default function BookingSection() {
           className="mb-14 text-center"
         >
           <span className="font-secondary text-[11px] uppercase tracking-[0.35em] text-[#C9A84C]">
-            Reserve Your Dates
+            Reserve Your Dates 
           </span>
           <h2 className="font-primary mt-3 text-4xl font-black text-[#2f2520] md:text-5xl">
             Check Availability
