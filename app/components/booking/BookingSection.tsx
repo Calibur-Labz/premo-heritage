@@ -14,6 +14,11 @@ const STANDARD_NIGHTLY_RATE = 60;
 const LONG_STAY_NIGHTLY_RATE = 50;
 const LONG_STAY_THRESHOLD_NIGHTS = 7;
 
+// Published rates shown on the pricing card.
+const SINGLE_ROOM_NIGHTLY_RATE = 35;
+const FULL_VILLA_NIGHTLY_RATE = 105;
+const FULL_VILLA_LONG_STAY_RATE = 95;
+
 function nightlyRate(nights: number) {
   return nights > LONG_STAY_THRESHOLD_NIGHTS ? LONG_STAY_NIGHTLY_RATE : STANDARD_NIGHTLY_RATE;
 }
@@ -155,7 +160,7 @@ export default function BookingSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mx-auto mb-14 max-w-2xl overflow-hidden rounded-sm border border-[#eee4da] bg-[#fbfaf7] shadow-[0_4px_20px_rgba(61,38,20,0.06)]"
+          className="mx-auto mb-14 max-w-3xl overflow-hidden rounded-sm border border-[#eee4da] bg-[#fbfaf7] shadow-[0_4px_20px_rgba(61,38,20,0.06)]"
         >
           {/* Villa summary */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-b border-[#eee4da] bg-white px-6 py-4">
@@ -168,26 +173,38 @@ export default function BookingSection() {
           </div>
 
           {/* Rates */}
-          <div className="grid grid-cols-1 divide-y divide-[#eee4da] sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-            <div className="px-6 py-6 text-center">
+          <div className="grid grid-cols-1 divide-y divide-[#eee4da] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            <div className="px-5 py-6 text-center">
               <p className="font-secondary text-[13px] uppercase tracking-[0.2em] text-[#9c9188]">
-                Nightly Rate
+                One Room
               </p>
-              <p className="mt-2 font-primary text-4xl font-black text-[#2f2520]">
-                ${STANDARD_NIGHTLY_RATE}
-                <span className="ml-1 text-[20px] font-medium text-[#9c9188]">/ night</span>
+              <p className="mt-2 font-primary text-3xl font-black text-[#2f2520] lg:text-4xl">
+                ${SINGLE_ROOM_NIGHTLY_RATE}
+                <span className="ml-1 text-[17px] font-medium text-[#9c9188]">/ night</span>
               </p>
               <p className="mt-1 font-secondary text-s text-[#9c9188]">
-                Up to {LONG_STAY_THRESHOLD_NIGHTS} nights
+                Per bedroom, per night
               </p>
             </div>
-            <div className="px-6 py-6 text-center">
+            <div className="px-5 py-6 text-center">
+              <p className="font-secondary text-[13px] uppercase tracking-[0.2em] text-[#C9A84C]">
+                Full Villa
+              </p>
+              <p className="mt-2 font-primary text-3xl font-black text-[#2f2520] lg:text-4xl">
+                ${FULL_VILLA_NIGHTLY_RATE}
+                <span className="ml-1 text-[17px] font-medium text-[#9c9188]">/ night</span>
+              </p>
+              <p className="mt-1 font-secondary text-s text-[#9c9188]">
+                All 3 bedrooms
+              </p>
+            </div>
+            <div className="px-5 py-6 text-center">
               <p className="font-secondary text-[13px] uppercase tracking-[0.2em] text-[#4a7c59]">
                 Long-Stay Rate
               </p>
-              <p className="mt-2 font-primary text-4xl font-black text-[#2f2520]">
-                ${LONG_STAY_NIGHTLY_RATE}
-                <span className="ml-1 text-[20px] font-medium text-[#9c9188]">/ night</span>
+              <p className="mt-2 font-primary text-3xl font-black text-[#2f2520] lg:text-4xl">
+                ${FULL_VILLA_LONG_STAY_RATE}
+                <span className="ml-1 text-[17px] font-medium text-[#9c9188]">/ night</span>
               </p>
               <p className="mt-1 font-secondary text-s text-[#4a7c59]">
                 Stays over {LONG_STAY_THRESHOLD_NIGHTS} nights
